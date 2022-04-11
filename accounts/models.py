@@ -8,3 +8,7 @@ class CustomUser(AbstractUser):
 
     def __str__(self):
         return self.username
+
+
+class Task(models.Model):
+    name = models.CharField(max_length=64)
