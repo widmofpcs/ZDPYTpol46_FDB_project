@@ -11,4 +11,4 @@ class CustomUser(AbstractUser):
 
 
 class Task(models.Model):
-    name = models.CharField(max_length=128)
+    name = models.CharField(max_length=64)
