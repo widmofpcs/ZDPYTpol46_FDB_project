@@ -43,6 +43,7 @@ INSTALLED_APPS = [
 
     # local
     'accounts.apps.AccountsConfig',
+    'task.apps.TaskConfig',
 ]
 AUTH_USER_MODEL = "accounts.CustomUser"
 AUTH_PROFILE_MODULE = "accounts.CustomUserProfile"
