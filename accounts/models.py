@@ -12,11 +12,11 @@ class CustomUser(AbstractUser):
 
 
 class CustomUserProfile(models.Model):
-    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='profile')
     specialization = models.CharField(max_length=128, blank=True, null=True)
     brith_date = models.DateField(blank=True, null=True)
     country = models.CharField(max_length=64, null=True, blank=True)
-    City = models.CharField(max_length=64, null=True, blank=True)
+    city = models.CharField(max_length=64, null=True, blank=True)
     address = models.CharField(max_length=128, null=True, blank=True)
     phone_number = models.PositiveIntegerField(null=True, blank=True)
 
