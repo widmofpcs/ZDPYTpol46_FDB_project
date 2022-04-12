@@ -12,14 +12,13 @@ class CustomUser(AbstractUser):
 
 
 class CustomUserProfile(models.Model):
-    id = models.AutoField(primary_key=True)
-    user = models.ForeignKey(CustomUser, unique=True, on_delete=models.CASCADE)
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     specialization = models.CharField(max_length=128, blank=True, null=True)
     brith_date = models.DateField(blank=True, null=True)
     country = models.CharField(max_length=64, null=True, blank=True)
     City = models.CharField(max_length=64, null=True, blank=True)
     address = models.CharField(max_length=128, null=True, blank=True)
-    phone_number = models.PositiveIntegerField(max_length=11, null=True, blank=True)
+    phone_number = models.PositiveIntegerField(null=True, blank=True)
 
     def user_directory_path(self, filename):
         return f'{self.user.username}/{filename}'
@@ -28,4 +27,4 @@ class CustomUserProfile(models.Model):
         upload_to=user_directory_path, height_field=40, width_field=40, blank=True, null=True
     )
 
-    CustomUser.profile = property(lambda self: CustomUserProfile.objects.get_or_create(user=self)[0])
+
