@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.urls import reverse_lazy
+from django.utils.functional import lazy
 
 
 class CustomUser(AbstractUser):
@@ -19,12 +20,7 @@ class CustomUserProfile(models.Model):
     city = models.CharField(max_length=64, null=True, blank=True)
     address = models.CharField(max_length=128, null=True, blank=True)
     phone_number = models.PositiveIntegerField(null=True, blank=True)
+    upload = models.ImageField(upload_to=user_directory_path, blank=True, null=True)
 
     def user_directory_path(self, filename):
-        return f'{self.user.username}/{filename}'
-
-    upload = models.ImageField(
-        upload_to=user_directory_path, height_field=40, width_field=40, blank=True, null=True
-    )
-
-
+        return 'user_{0}/{1}'.format(self.user.id, filename)
