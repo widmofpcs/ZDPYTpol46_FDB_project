@@ -26,3 +26,5 @@ class CustomUserProfile(models.Model):
         return 'user_{0}/{1}'.format(self.user.id, filename)
 
     upload = models.ImageField(upload_to=user_directory_path, blank=True, null=True)
+
+    upload = models.ImageField(upload_to=user_directory_path, blank=True, null=True)
