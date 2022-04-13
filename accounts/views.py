@@ -1,9 +1,13 @@
+import os
+
+from django.conf import settings
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView, UpdateView
 
 from accounts.forms import CustomUserCreationForm, CustomUserProfileChangeForm, CustomUserChangeForm
+from accounts.models import CustomUserProfile
 
 
 class SignUpView(CreateView):
@@ -35,4 +39,16 @@ def profile_update_view(request):
         request,
         'accounts/profile_update.html',
         {'profile_form': profile_form}
+    )
+
+
+@login_required
+def profile_detail_view(request, pk):
+    profile = get_object_or_404(CustomUserProfile, pk=pk)
+    return render(
+        request,
+        'accounts/profile_detail.html',
+        context={
+            'profile': profile,
+        }
     )
