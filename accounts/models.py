@@ -5,7 +5,6 @@ from django.utils.functional import lazy
 from django_countries.fields import CountryField
 
 
-
 class CustomUser(AbstractUser):
     is_manager = models.BooleanField('Manager status', default=False)
     is_employee = models.BooleanField('Employee status', default=False)
