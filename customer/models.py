@@ -11,3 +11,6 @@ class Customer(models.Model):
     tax_number = models.CharField(max_length=10, null=True, blank=True)
     regon_number = models.CharField(max_length=9, null=True, blank=True)
 #   total_cost = chipleader
+
+    def __str__(self):
+        return f'{self.name.capitalize()}'
