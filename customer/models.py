@@ -10,4 +10,5 @@ class Customer(models.Model):
     country = CountryField(blank_label='(select country)')
     tax_number = models.CharField(max_length=10, null=True, blank=True)
     regon_number = models.CharField(max_length=9, null=True, blank=True)
+    email = models.EmailField()
 #   total_cost = chipleader

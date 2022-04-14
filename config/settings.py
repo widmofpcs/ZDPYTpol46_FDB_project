@@ -41,7 +41,7 @@ INSTALLED_APPS = [
 
     # 3rd part
 
-    'django_countries'
+    'django_countries',
     
     # local
     'accounts.apps.AccountsConfig',
