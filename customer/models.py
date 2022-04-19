@@ -10,7 +10,7 @@ class Customer(models.Model):
     country = CountryField(blank_label='(select country)')
     tax_number = models.CharField(max_length=10, null=True, blank=True)
     regon_number = models.CharField(max_length=9, null=True, blank=True)
-#   total_cost = chipleader
+    email = models.EmailField()
 
     def __str__(self):
         return f'{self.name.capitalize()}'

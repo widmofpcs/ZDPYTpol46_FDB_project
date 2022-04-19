@@ -1,55 +1,34 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from django import views
-from django.views.generic import ListView
+from django.shortcuts import render, redirect
+from customer.models import Customer
+from customer.forms import CustomerForm
 
-from task.form import TaskCreateForm, EmployeeRequestChangeTask
-from task.models import Task
+# Create your views here.
 
-
-class TaskListView(ListView):
-    model = Task
-
-
-class TaskCreateView(views.View):
-    def get(self, request):
-        form = TaskCreateForm()
-        return render(
-            request,
-            'task/create_task.html',
-            context={
-                'form': form
-            }
-        )
-
-    def post(self, request):
-        form = TaskCreateForm(request.POST)
+def customer_form(request):
+    if request.method == "POST":
+        form = CustomerForm(request.POST)
 
         if form.is_valid():
-            form.save()
-        return redirect('home')
+            data = form.cleaned_data
 
+            Customer.objects.create(
+                name=data.get('name'),
+                address=data.get('address'),
+                zip_code=data.get('zip_code'),
+                city=data.get('city'),
+                country=data.get('country'),
+                tax_number=data.get('tax_number'),
+                regon_number=data.get('regon_number'),
+                email=data.get('email')
+            )
 
-class RequestChangeTaskView(views.View):
-    def get(self, request, pk):
-        task = get_object_or_404(Task, id=pk)
-        form = EmployeeRequestChangeTask(
-            initial={
-                'title': task.title,
-                'description': task.description,
-                'consumed_time': task.consumed_time,
-                'rate': task.rate,
-                'is_active': task.is_active,
-            })
-        return render(
-            request,
-            'task/create_task.html',
-            context={
-                'form': form
-            }
+            return redirect(to='home')
+
+    form = CustomerForm()  # unbound form
+    return render(
+        request,
+        'customer/customer_form.html',
+        context={
+            'form': form
+        }
         )
-
-    def post(self, request, pk):
-        form = EmployeeRequestChangeTask(request.POST)
-        if form.is_valid():
-            form.save()
-        return redirect('home')

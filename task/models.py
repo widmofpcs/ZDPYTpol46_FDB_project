@@ -9,12 +9,13 @@ class Task(models.Model):
     description = models.TextField(null=True, blank=True)
     created_date = models.DateField(auto_now_add=True, editable=False)
     date_modified = models.DateTimeField(auto_now=True)
-    created_by = models.ForeignKey(CustomUser, on_delete=models.SET('Former employee'), null=True), #editable=False)
+    created_by = models.ForeignKey(CustomUser, on_delete=models.SET('Former employee'), null=True)
     consumed_time = models.DecimalField(null=True, blank=True, max_digits=5, decimal_places=1)
     id_customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True)
     rate = models.DecimalField(null=True, blank=True, max_digits=5, decimal_places=1)
     total_cost = models.DecimalField(null=True, blank=True, max_digits=7, decimal_places=2)
     is_active = models.BooleanField(default=True)
+    invoiced = models.BooleanField(default=False)
 
 
 class RequestChangeTask(models.Model):
