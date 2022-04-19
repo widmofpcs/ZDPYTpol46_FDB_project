@@ -38,8 +38,7 @@ class EmployeeRequestChangeTask(forms.ModelForm):
     rate = forms.DecimalField(
         max_digits=5, decimal_places=1,
         widget=forms.NumberInput(attrs={'placeholder': 'Only one decimal place allowed'}))
-    is_active = forms.BooleanField(required=False,
-                                   widget=forms.RadioSelect)
+    is_active = forms.BooleanField(required=False)
     description_of_change = forms.Textarea(attrs={'placeholder': 'What changes and why?'})
 
     class Meta:

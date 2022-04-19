@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    {% for request_task in object_list %}
+        {% if request_task.status == '1' %}
+            <li>{{ request_task.title }}</li><a href="{% url 'task:request-approval' request_task.id %}"><button>Check</button></a>
+        {% endif %}
+    {% endfor %}
+</body>
+</html>
