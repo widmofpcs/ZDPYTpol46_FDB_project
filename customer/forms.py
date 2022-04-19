@@ -1,17 +1,22 @@
 from django import forms
 from django_countries.fields import CountryField
 
+from customer.models import Customer
 
 
-
-class CustomerForm(forms.Form):
-    name = forms.CharField(label="Customer name")
-    address = forms.CharField(label="Street")
-    zip_code = forms.CharField(label="Zip code")
-    city = forms.CharField(label="City")
-    country = CountryField().formfield()
-    tax_number = forms.CharField(label="Tax number")
-    regon_number = forms.CharField(label="Regon number")
-    email = forms.EmailField(label="Email")
+class CustomerForm(forms.ModelForm):
+    class Meta:
+        model = Customer
+        fields = "__all__"
+        labels = {
+            "name": "Customer name",
+            "address": "Street",
+            "zip_code": "Zip code",
+            "city": "City",
+            "country": "Country",
+            "tax_number": "Tax number",
+            "regon_number": "Regon number",
+            "email": "Email",
+        }
 
 
