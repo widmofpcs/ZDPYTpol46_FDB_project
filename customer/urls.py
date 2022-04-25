@@ -5,6 +5,7 @@ from customer import views
 app_name = 'customer'
 
 
+
 urlpatterns = [
     path('list/', views.CustomerListView.as_view(), name='list-customer'),
     path('<int:pk>/', views.customer_detail_view, name='details-customer'),
@@ -13,3 +14,4 @@ urlpatterns = [
     path('update/<int:pk>/', views.customer_update_view, name='update-customer'),
     path('delete/<int:pk>/', views.CustomerDeleteView.as_view(), name='delete-customer'),
 ]
+

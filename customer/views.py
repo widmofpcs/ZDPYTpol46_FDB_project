@@ -6,16 +6,19 @@ from customer.models import Customer
 from customer.forms import CustomerForm
 
 
+
 # Create your views here.
 
 def customer_form(request):
     if request.method == "POST":
+
         form = CustomerForm(request.POST)  # bound form
 
         if form.is_valid():
             form.save()
 
         return redirect('customer:list-customer')
+
 
     form = CustomerForm()  # unbound form
     return render(
@@ -24,6 +27,7 @@ def customer_form(request):
         context={
             'form': form
         }
+
     )
 
 
@@ -68,3 +72,4 @@ def customer_update_view(request, pk):
 class CustomerDeleteView(DeleteView):
     model = Customer
     success_url = reverse_lazy('customer:list-customer')
+
