@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DeleteConfirm</title>
+</head>
+<body>
+  <h2>Usuwanie klienta</h2>
+  <form method="POST" style="display: inline;">{% csrf_token %}
+    <p>Czy na pewno chcesz usunąć klienta: {{ customer.name }} ?</p>
+    <input type="submit" value="Potwierdź">
+  </form>
+
+  <a href="{% url 'customer:list-customer' %}"><button>Anuluj</button></a>
+</body>
+</html>
