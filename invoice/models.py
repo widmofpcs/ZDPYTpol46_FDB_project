@@ -43,9 +43,5 @@ class Invoice(models.Model):
     def __str__(self):
         return f'Invoice nr {str(self.number)}, issued on {self.date_created},for client: {self.id_customer}'
 
-    '''sformatowac datę tak, żeby wyswietlał tylko miesiąc i rok - w formie za pomocą czegos takiego:
-    
-    < p > Published on {{postobject.timestamp | date: "F d Y"}} < / p ># '''
-
 
 
