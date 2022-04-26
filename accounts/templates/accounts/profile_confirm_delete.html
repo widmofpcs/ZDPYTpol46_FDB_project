@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Usuwanie użytkownika</title>
+</head>
+<body>
+  <h2>Usuwanie użytkownika</h2>
+  <form method="POST" style="display: inline;">{% csrf_token %}
+    <p>Czy na pewno chcesz usunąć użytkownika: {{ user.name }} ?</p>
+    <input type="submit" value="Potwierdź">
+  </form>
+</body>
+</html>
