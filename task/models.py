@@ -1,4 +1,5 @@
 from django.db import models
+from django.shortcuts import get_object_or_404
 
 from accounts.models import CustomUser
 from customer.models import Customer
@@ -40,6 +41,11 @@ class RequestChangeTask(models.Model):
     review_by = models.ForeignKey(
         CustomUser, on_delete=models.SET('Former manager'), null=True, related_name='manager'
     )
+
+    def request_exist(self, pk):
+        if get_object_or_404(self, task_id=pk, status='1'):
+            task = get_object_or_404(self, task_id=pk)
+            return task
 
 
 class TeamTask(models.Model):

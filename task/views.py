@@ -38,7 +38,11 @@ class TaskCreateView(views.View):
 
 class RequestChangeTaskView(views.View):
     def get(self, request, pk):
-        task = get_object_or_404(Task, id=pk)
+        # task = get_object_or_404(Task, id=pk)
+        if RequestChangeTask.objects.filter(task_id=pk, status='1').exists():
+            task = get_object_or_404(RequestChangeTask, task_id=pk, status='1')
+        else:
+            task = get_object_or_404(Task, id=pk)
         form = EmployeeRequestChangeTask(
             initial={
                 'title': task.title,

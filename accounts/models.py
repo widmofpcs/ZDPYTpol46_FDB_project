@@ -2,16 +2,16 @@ from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.db import models
 from django_countries.fields import CountryField
 
-
-class WithoutAdmin(BaseUserManager):
-    def get_queryset(self):
-        return super().get_queryset().filter(is_superuser=False)
+#
+# class WithoutAdmin(BaseUserManager):
+#     def get_queryset(self):
+#         return super().get_queryset().filter(is_superuser=False)
 
 
 class CustomUser(AbstractUser):
     is_manager = models.BooleanField('Manager status', default=False)
     is_employee = models.BooleanField('Employee status', default=False)
-    objects = WithoutAdmin()
+    # objects = WithoutAdmin()
 
     def __str__(self):
         return self.username
