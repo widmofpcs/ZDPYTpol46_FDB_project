@@ -1,6 +1,4 @@
 from django import forms
-from django_countries.fields import CountryField
-
 from customer.models import Customer
 
 
@@ -18,5 +16,6 @@ class CustomerForm(forms.ModelForm):
             "regon_number": "Regon number",
             "email": "Email",
         }
+
 
 

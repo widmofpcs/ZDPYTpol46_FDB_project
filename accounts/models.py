@@ -26,7 +26,7 @@ class CustomUserProfile(models.Model):
         return 'user_{0}/{1}'.format(self.user.id, filename)
 
     # Gdy dodajesz nowe zdjęcie stare się usuwa - do zrobienia
-    upload = models.ImageField(upload_to=user_directory_path, blank=True, null=True) # przetestować zachowanie z Alt
+    upload = models.ImageField(upload_to=user_directory_path, blank=True, null=True)
 
     def get_url(self):
         try:
