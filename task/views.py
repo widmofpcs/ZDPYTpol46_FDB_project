@@ -125,18 +125,6 @@ class TeamTaskListView(ListView):
         return obj_list
 
 
-# class TeamTaskListView(views.View):
-#     def get(self, request):
-#         object_list = TeamTask.objects.values('name').distinct()
-#         return render(
-#             request,
-#             'task/team_task_list.html',
-#             context={
-#                 'object_list': object_list,
-#             }
-#         )
-
-
 class TeamTaskAddUsers(views.View):
     def get(self, request, pk):
         team = get_object_or_404(TeamTask, id=pk)
