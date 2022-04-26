@@ -1,6 +1,6 @@
 import os
 
-from django.conf import settings
+from login_required import LoginNotRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render, get_object_or_404
 from django.urls import reverse_lazy
@@ -10,7 +10,7 @@ from accounts.forms import CustomUserCreationForm, CustomUserProfileChangeForm, 
 from accounts.models import CustomUserProfile
 
 
-class SignUpView(CreateView):
+class SignUpView(LoginNotRequiredMixin, CreateView):
     form_class = CustomUserCreationForm
     success_url = reverse_lazy("login")
     template_name = "registration/signup.html"
