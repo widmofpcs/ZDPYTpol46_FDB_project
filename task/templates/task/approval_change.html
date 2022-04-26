@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h2>{{ waiting_task.description_of_change }}</h2>
+    <p>{{ task.title }} ---> {{ waiting_task.title }}</p>
+    <p>{{ task.description }} ---> {{ waiting_task.description }}</p>
+    <p>{{ task.consumed_time }} ---> {{ waiting_task.consumed_time }}</p>
+    <p>{{ task.rate }} ---> {{ waiting_task.rate }}</p>
+    <p>{{ task.is_active }} ---> {{ waiting_task.is_active }}</p>
+
+    <form method="POST">{% csrf_token %}
+        <button type="submit" name="applybtn">Accept</button><button type="submit" name="deletebtn">Delete</button>
+    </form>
+</body>
+</html>
