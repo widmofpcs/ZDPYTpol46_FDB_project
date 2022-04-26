@@ -1,7 +1,8 @@
 from django import forms
 
+from accounts.models import CustomUser
 from customer.models import Customer
-from task.models import Task, RequestChangeTask
+from task.models import Task, RequestChangeTask, TeamTask
 
 
 class TaskCreateForm(forms.ModelForm):
@@ -38,7 +39,7 @@ class EmployeeRequestChangeTask(forms.ModelForm):
     rate = forms.DecimalField(
         max_digits=5, decimal_places=1,
         widget=forms.NumberInput(attrs={'placeholder': 'Only one decimal place allowed'}))
-    is_active = forms.BooleanField(required=False)
+    is_active = forms.RadioSelect()
     description_of_change = forms.Textarea(attrs={'placeholder': 'What changes and why?'})
 
     class Meta:
@@ -53,3 +54,8 @@ class EmployeeRequestChangeTask(forms.ModelForm):
             'description_of_change': 'Describe yours changes: '
         }
 
+
+class AddUserToTeam(forms.ModelForm):
+    class Meta:
+        model = TeamTask
+        fields = ['user_id']

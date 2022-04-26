@@ -3,6 +3,8 @@ from django.db import models
 from accounts.models import CustomUser
 from customer.models import Customer
 
+BOOL_CHOICES = ((True, 'Yes'), (False, 'No'))
+
 
 class Task(models.Model):
     title = models.CharField(max_length=128)
@@ -14,8 +16,8 @@ class Task(models.Model):
     id_customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True)
     rate = models.DecimalField(null=True, blank=True, max_digits=5, decimal_places=1)
     total_cost = models.DecimalField(null=True, blank=True, max_digits=7, decimal_places=2)
-    is_active = models.BooleanField(default=True)
-    invoiced = models.BooleanField(default=False)
+    is_active = models.BooleanField(choices=BOOL_CHOICES)
+    invoiced = models.BooleanField(choices=BOOL_CHOICES)
 
 
 class RequestChangeTask(models.Model):
@@ -30,7 +32,7 @@ class RequestChangeTask(models.Model):
     description_of_change = models.TextField(null=True)
     consumed_time = models.DecimalField(null=True, blank=True, max_digits=5, decimal_places=1)
     rate = models.DecimalField(null=True, blank=True, max_digits=5, decimal_places=1)
-    is_active = models.BooleanField(default=True)
+    is_active = models.BooleanField(choices=BOOL_CHOICES)
     status = models.CharField(max_length=1, choices=STATUS, default='1')
     requested_by = models.ForeignKey(
         CustomUser, on_delete=models.SET('Former employee'), null=True, related_name='employee'
@@ -38,3 +40,9 @@ class RequestChangeTask(models.Model):
     review_by = models.ForeignKey(
         CustomUser, on_delete=models.SET('Former manager'), null=True, related_name='manager'
     )
+
+
+class TeamTask(models.Model):
+    name = models.CharField(max_length=128)
+    task_id = models.ForeignKey(Task, on_delete=models.CASCADE, related_name='tasks')
+    user_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='users')
