@@ -7,6 +7,9 @@
   Hi {{ user.username }}!
   <p><a href="{% url 'accounts:update-profile' %}"><button>Update profile</button></a></p>
   <p><a href="{% url 'logout' %}">Log Out</a></p>
+  <p><a href="{% url 'accounts:list-profile'%}"><button class="btn btn-primary">User list</a></button><br><br></p>
+
+
 {% else %}
   <p>You are not logged in</p>
   <a href="{% url 'login' %}">Log In</a> |

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Users list</title>
+</head>
+<body>
+<h2> Users list</h2>
+
+<ol>
+    {% for user in model_user %}
+    <li>
+    Nazwa: {{ user.username}}<br>
+    Email: {{ user.email}}<br><br>
+    <a href="{% url 'accounts:detail-profile' user.id %}"><button class="btn btn-primary">Details</a></button><br><br>
+    <a href="{% url 'accounts:delete-profile' user.id %}"><button class="btn btn-primary">Usuń</a></button><br><br>
+    </li>
+    {% endfor %}
+</ol>
+      <a href="{% url 'accounts:form-profile' %}"><button class="btn btn-primary">New User</button></a>
+
+</body>
+</html>
