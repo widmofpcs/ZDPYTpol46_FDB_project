@@ -16,7 +16,7 @@
         {% endif %}
         {% for task in invoice.id_task.all %}
     <p>{{ task.title }}</p>
-<!--        <a href="{% 'task:task-detail' task.id %}"><button>task detail</button></a>-->
+    <a href="{% 'task:task-detail' task.id %}"><button>task detail</button></a>
         {% endfor %}
         {% if invoice.id_discount %}
     <p>Discount: {{ invoice.id_discount }} %</p>
