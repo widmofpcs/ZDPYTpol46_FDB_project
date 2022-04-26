@@ -1,12 +1,17 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django import views
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 
-from task.form import TaskCreateForm, EmployeeRequestChangeTask
-from task.models import Task, RequestChangeTask
+from accounts.models import CustomUser
+from task.form import TaskCreateForm, EmployeeRequestChangeTask, AddUserToTeam
+from task.models import Task, RequestChangeTask, TeamTask
 
 
 class TaskListView(ListView):
+    model = Task
+
+
+class TaskDetailView(DetailView):
     model = Task
 
 
@@ -37,7 +42,11 @@ class TaskCreateView(views.View):
 
 class RequestChangeTaskView(views.View):
     def get(self, request, pk):
-        task = get_object_or_404(Task, id=pk)
+        # task = get_object_or_404(Task, id=pk)
+        if RequestChangeTask.objects.filter(task_id=pk, status='1').exists():
+            task = get_object_or_404(RequestChangeTask, task_id=pk, status='1')
+        else:
+            task = get_object_or_404(Task, id=pk)
         form = EmployeeRequestChangeTask(
             initial={
                 'title': task.title,
@@ -99,3 +108,47 @@ class RequestChangeApprovalView(views.View):
                 review_by=self.request.user
             )
             return redirect('task:request-list')
+
+
+class TeamTaskListView(ListView):
+    model = TeamTask
+    template_name = 'task/team_task_list.html'
+
+    def get_queryset(self):
+        name_list = []
+        obj_list = []
+        teams = TeamTask.objects.all()
+        for team in teams:
+            if team.name not in name_list:
+                name_list.append(team.name)
+                obj_list.append(team)
+        return obj_list
+
+
+class TeamTaskAddUsers(views.View):
+    def get(self, request, pk):
+        team = get_object_or_404(TeamTask, id=pk)
+        users = TeamTask.objects.filter(task_id=team.task_id, name=team.name)
+        users_to_exclude = TeamTask.objects.filter(task_id=team.task_id, name=team.name).values_list('user_id',
+                                                                                                     flat=True)
+        form = AddUserToTeam()
+        form.fields['user_id'].queryset = CustomUser.objects.exclude(id__in=users_to_exclude).exclude(is_superuser=True)
+        return render(
+            request,
+            'task/add_user_to_team.html',
+            context={
+                'team': team,
+                'form': form,
+                'users': users,
+            })
+
+    def post(self, request, pk):
+        team = get_object_or_404(TeamTask, id=pk)
+        form = AddUserToTeam(request.POST)
+        if form.is_valid():
+            TeamTask.objects.create(
+                name=team.name,
+                task_id=team.task_id,
+                user_id=form.instance.user_id
+            )
+        return redirect('task:team-add', pk=pk)

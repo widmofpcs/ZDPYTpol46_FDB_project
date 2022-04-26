@@ -7,7 +7,11 @@
 <body>
     <ul>
     {% for task in object_list %}
-        <li>{{ task.title }} <a href="{% url 'task:task-update' task.id %}"><button>edit</button></a></li>
+        <li>{{ task.title }}
+            <a href="{% url 'task:task-update' task.id %}"><button>edit</button></a>
+            <a href="{% url 'task:task-detail' task.id %}"><button>show</button></a>
+        </li>
+
     {% endfor %}
     </ul>
 </body>

@@ -42,12 +42,14 @@ INSTALLED_APPS = [
     # 3rd part
 
     'django_countries',
+
     
     # local
     'accounts.apps.AccountsConfig',
     'task.apps.TaskConfig',
     'customer.apps.CustomerConfig',
 ]
+
 AUTH_USER_MODEL = "accounts.CustomUser"
 AUTH_PROFILE_MODULE = "accounts.CustomUserProfile"
 MIDDLEWARE = [
@@ -56,6 +58,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'login_required.middleware.LoginRequiredMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -140,3 +143,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = "home"
 LOGOUT_REDIRECT_URL = "home"
 
+LOGIN_REQUIRED_IGNORE_VIEW_NAMES = [
+    'home',
+    'login',
+    'logout',
+]
