@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>List of invoices</title>
+</head>
+<body>
+    <ul>
+        {% for invoice in object_list %}
+        <li> Numer faktury: {{ invoice.number }} wystawiona dla: {{invoice.id_customer}}
+            <a href="{% url 'invoice:invoice-detail' invoice.number %}"><button>Details</button></a></li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

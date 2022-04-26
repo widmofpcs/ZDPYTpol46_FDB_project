@@ -42,12 +42,12 @@ INSTALLED_APPS = [
     # 3rd part
 
     'django_countries',
-
     
     # local
     'accounts.apps.AccountsConfig',
     'task.apps.TaskConfig',
     'customer.apps.CustomerConfig',
+    'invoice.apps.InvoiceConfig',
 ]
 
 AUTH_USER_MODEL = "accounts.CustomUser"

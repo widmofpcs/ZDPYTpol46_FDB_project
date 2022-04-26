@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Invoice</title>
+</head>
+<body>
+    <h1>Invoice Number: {{ invoice.number }} /
+        {{invoice.date_created|date:'M'}} /
+        {{invoice.date_created|date:'Y'}}</h1>
+    <p>Client: </p>
+    <p>{{ invoice.id_customer }}</p>
+    <p>Tasks:</p>
+        {% if not invoice.id_task.all %}
+    <p>AIN NO TASKS HERE BWOOOOY</p>
+        {% endif %}
+        {% for task in invoice.id_task.all %}
+    <p>{{ task.title }}</p>
+    <a href="{% 'task:task-detail' task.id %}"><button>task detail</button></a>
+        {% endfor %}
+        {% if invoice.id_discount %}
+    <p>Discount: {{ invoice.id_discount }} %</p>
+        {% endif %}
+    <a href="{% url 'invoice:invoice-list' %}"><button>Back to list view</button></a>
+</body>
+</html>
