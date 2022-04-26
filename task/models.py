@@ -17,8 +17,8 @@ class Task(models.Model):
     id_customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True)
     rate = models.DecimalField(null=True, blank=True, max_digits=5, decimal_places=1)
     total_cost = models.DecimalField(null=True, blank=True, max_digits=7, decimal_places=2)
-    is_active = models.BooleanField(choices=BOOL_CHOICES)
-    invoiced = models.BooleanField(choices=BOOL_CHOICES)
+    is_active = models.BooleanField(choices=BOOL_CHOICES, default=True)
+    invoiced = models.BooleanField(choices=BOOL_CHOICES, default=False)
 
 
 class RequestChangeTask(models.Model):
