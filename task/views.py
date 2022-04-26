@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django import views
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 
 from accounts.models import CustomUser
 from task.form import TaskCreateForm, EmployeeRequestChangeTask, AddUserToTeam
@@ -8,6 +8,10 @@ from task.models import Task, RequestChangeTask, TeamTask
 
 
 class TaskListView(ListView):
+    model = Task
+
+
+class TaskDetailView(DetailView):
     model = Task
 
 
@@ -137,13 +141,10 @@ class TeamTaskAddUsers(views.View):
     def get(self, request, pk):
         team = get_object_or_404(TeamTask, id=pk)
         users = TeamTask.objects.filter(task_id=team.task_id, name=team.name)
-        excludes = []
-        for user in users:
-            excludes.append(user.user_id.id)
-
+        users_to_exclude = TeamTask.objects.filter(task_id=team.task_id, name=team.name).values_list('user_id',
+                                                                                                     flat=True)
         form = AddUserToTeam()
-        form.fields['user_id'].queryset = CustomUser.not_super.exclude(id__in=excludes)
-        # form.fields['user_id'].queryset = CustomUser.not_super.filter(users)
+        form.fields['user_id'].queryset = CustomUser.objects.exclude(id__in=users_to_exclude).exclude(is_superuser=True)
         return render(
             request,
             'task/add_user_to_team.html',
