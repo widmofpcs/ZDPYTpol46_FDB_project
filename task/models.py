@@ -52,3 +52,5 @@ class TeamTask(models.Model):
     name = models.CharField(max_length=128)
     task_id = models.ForeignKey(Task, on_delete=models.CASCADE, related_name='tasks')
     user_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='users')
+
+# komnetarz
