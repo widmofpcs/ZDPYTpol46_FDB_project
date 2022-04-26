@@ -8,13 +8,14 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
-from accounts.forms import CustomUserCreationForm, CustomUserProfileChangeForm, CustomUserChangeForm
+from accounts.forms import CustomUserCreationForm, CustomUserProfileChangeForm, CustomUserChangeForm, \
+    CustomUserCreationFormFirst
 from accounts.formset import CustomUserProfileFormSet
 from accounts.models import CustomUserProfile, CustomUser
 
 
 class SignUpView(CreateView):
-    form_class = CustomUserCreationForm
+    form_class = CustomUserCreationFormFirst
     success_url = reverse_lazy("login")
     template_name = "registration/signup.html"
 
