@@ -115,13 +115,11 @@ class TeamTaskListView(ListView):
     template_name = 'task/team_task_list.html'
 
     def get_queryset(self):
-        name_list = []
         obj_list = []
-        teams = TeamTask.objects.all()
+        teams = TeamTask.objects.values_list('name').distinct()
         for team in teams:
-            if team.name not in name_list:
-                name_list.append(team.name)
-                obj_list.append(team)
+            res = TeamTask.objects.filter(name=team[0]).first()
+            obj_list.append(res)
         return obj_list
 
 
