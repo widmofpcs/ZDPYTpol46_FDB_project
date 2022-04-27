@@ -43,9 +43,7 @@ def profile_list_view(request):
     )
 
 
-
 class UserCreateView(views.View):
-
 
     def get(self, request):
         form1 = CustomUserCreationForm
@@ -68,6 +66,7 @@ class UserCreateView(views.View):
             form1.save()
 
         return redirect('accounts:list-profile')
+
 
 #
 
@@ -102,6 +101,8 @@ def profile_detail_view(request, pk):
         }
     )
 
+
 class UserDeleteView(DeleteView):
     model = CustomUser
     success_url = reverse_lazy('accounts:list-profile')
+    template_name = 'accounts/profile_confirm_delete.html'
