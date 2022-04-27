@@ -25,7 +25,6 @@ class InvoiceDetailView(views.View):
         )
 
 
-
 class InvoiceCustomerChoiceView(views.View):
 
     def get(self, request):
