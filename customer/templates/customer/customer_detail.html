@@ -1,20 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "base.html" %}
 
+{% block title %}Home{% endblock %}
 
-    <h2>Klient numer {{ customer.id }}</h2>
-    <p>{{ customer.name }}</p>
-    <p>{{ customer.address }}</p>
-    <p>{{ customer.city }}</p>
-    <p>{{ customer.country }}</p>
-    <p>{{ customer.email }}</p>
-    <a href="{% url 'customer:update-customer' customer.id %}"><button class="btn btn-primary">Zmodyfikuj</a></button><br><br>
-    <a href="{% url 'customer:delete-customer' customer.id %}"><button class="btn btn-primary">Usuń</a></button><br><br>
-    <a href="{% url 'customer:list-customer' %}"><button>Wróć do listy klientów</button></a>
-</body>
-</html>
+{% block content %}
+    <div class="container">
+        <h2>Klient numer {{ customer.id }}</h2>
+        <p>{{ customer.name }}</p>
+        <p>{{ customer.address }}</p>
+        <p>{{ customer.city }}</p>
+        <p>{{ customer.country }}</p>
+        <p>{{ customer.email }}</p>
+        <p>
+            <a href="{% url 'customer:update-customer' customer.id %}">
+                <button type="button" class="btn btn-primary">Update</button></a><br><br>
+            <a href="{% url 'customer:delete-customer' customer.id %}">
+                <button type="button" class="btn btn-primary">Delete</button></a><br><br>
+            <a href="{% url 'customer:list-customer' %}">
+                <button type="button" class="btn btn-primary">Back</button></a>
+        </p>
+    </div>
+{% endblock %}

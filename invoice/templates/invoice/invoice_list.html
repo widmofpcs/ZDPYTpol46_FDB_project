@@ -1,15 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>List of invoices</title>
-</head>
-<body>
-    <ul>
-        {% for invoice in object_list %}
-        <li> Numer faktury: {{ invoice.number }} wystawiona dla: {{invoice.id_customer}}
-            <a href="{% url 'invoice:invoice-detail' invoice.number %}"><button>Details</button></a></li>
-        {% endfor %}
-    </ul>
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>Invoices</h1>
+        <ul>
+            {% for invoice in object_list %}
+            <li> Numer faktury: {{ invoice.number }} wystawiona dla: {{invoice.id_customer}}
+                <a href="{% url 'invoice:invoice-detail' invoice.number %}">
+                    <button type="button" class="btn btn-primary">Details</button></a>
+            {% endfor %}
+        </ul>
+        <br>
+        <p>
+            <a href="{% url 'home' %}">
+                <button type="button" class="btn btn-primary">Back</button></a>
+        </p>
+    </div>
+{% endblock %}
