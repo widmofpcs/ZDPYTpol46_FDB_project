@@ -23,14 +23,23 @@ class Invoice(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
 
+
+    def no_invoice(self):
+        if Invoice.objects.count() == 0:
+            return True
+
+    def last_invoice_date(self):
+        if not Invoice.no_invoice(self):
+            last_date = Invoice.objects.all().last().date_created.strftime("%Y")
+            return last_date
+        else:
+            return datetime.now().strftime("%Y")
+
     def save(self, *args, **kwargs):
-        #sprawdza rok ostatniego obiektu
-        last_date = Invoice.objects.all().last().date_created.strftime("%Y")
-        #sprawdza aktualny rok
+
         date_now = datetime.now().strftime("%Y")
 
-        #jeżeli nie ma obiektów, albo jest następny rok
-        if Invoice.objects.count() == 0 or last_date != date_now:
+        if Invoice.no_invoice(self) or Invoice.last_invoice_date(self) != date_now:
             self.number = 1
             super().save(*args, **kwargs)
 
