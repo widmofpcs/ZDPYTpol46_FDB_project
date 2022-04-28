@@ -16,11 +16,13 @@ class InvoiceDetailView(views.View):
 
     def get(self, request, number):
         invoice = get_object_or_404(Invoice, number=number)
+        sum = invoice.get_tasks().aggregate(total_cost=Sum('total_cost'))['total_cost']
         return render(
             request,
             'invoice/invoice_detail.html',
             context={
-                'invoice': invoice
+                'invoice': invoice,
+                'sum': sum
             }
         )
 
@@ -51,6 +53,7 @@ class InvoiceTaskChoiceView(views.View):
         customer = request.COOKIES.get('customer')
         form = InvoiceCreateForm(initial={'id_customer_id': customer})
         form.fields['id_task'].queryset = Task.objects.filter(id_customer=customer, is_active=False, invoiced=False)
+        form.fields['id_customer'].queryset = Customer.objects.filter(id=customer)
 
         res = render(
             request,
@@ -64,7 +67,7 @@ class InvoiceTaskChoiceView(views.View):
 
     def post(self, request):
         form = InvoiceCreateForm(request.POST)
+
         if form.is_valid():
             form.save()
-
-        return redirect('invoice:invoice-list')
+            return redirect('invoice:invoice-list')
