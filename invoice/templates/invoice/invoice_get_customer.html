@@ -1,13 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>wybierz klienta</title>
-</head>
-<body>
-<form>
-    {{ form }}
-    <input type="submit" action='/invoice/create' value="confirm">
-</form>
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <form>
+            {{ form }}
+            <button type="submit" class="btn btn-primary">Confirm</button>
+
+        </form>
+    </div>
+{% endblock %}
