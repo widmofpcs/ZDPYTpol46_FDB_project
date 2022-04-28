@@ -19,6 +19,7 @@ class TaskDetailView(DetailView):
 class RequestTaskListView(ListView):
     model = RequestChangeTask
     template_name = 'task/request_change_list.html'
+    ordering = ['-created_date']
 
 
 class TaskCreateView(views.View):
@@ -171,5 +172,3 @@ class TeamUserDeleteView(views.View):
             return redirect('task:team-list')
         elif 'btnno' in request.POST:
             return redirect('task:team-add', pk)
-
-

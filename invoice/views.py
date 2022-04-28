@@ -64,7 +64,6 @@ class InvoiceTaskChoiceView(views.View):
 
     def post(self, request):
         form = InvoiceCreateForm(request.POST)
-
         if form.is_valid():
             form.save()
 
