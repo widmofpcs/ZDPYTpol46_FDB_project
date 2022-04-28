@@ -143,8 +143,16 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = "home"
 LOGOUT_REDIRECT_URL = "home"
 
+EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
+EMAIL_FILE_PATH = BASE_DIR / "sent_emails"
+
 LOGIN_REQUIRED_IGNORE_VIEW_NAMES = [
     'home',
     'login',
     'logout',
+    'accounts:reset_password',
+    'accounts:password_reset_done',
+    'accounts:password_reset_confirm',
+    'accounts:password_reset_complete',
+
 ]

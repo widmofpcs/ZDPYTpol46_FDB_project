@@ -3,6 +3,9 @@ import os
 from django import views
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail
+from django.template import Context
+from django.template.loader import render_to_string
 from django.shortcuts import redirect, render, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import ListView
@@ -17,7 +20,7 @@ from accounts.models import CustomUserProfile, CustomUser
 class SignUpView(CreateView):
     form_class = CustomUserCreationFormFirst
     success_url = reverse_lazy("login")
-    template_name = "registration/signup.html"
+    template_name = "user_registration/signup.html"
 
 
 """"
@@ -62,8 +65,22 @@ class UserCreateView(views.View):
         form1.fields['password1'].initial = password
         form1.fields['password2'].initial = password
 
+
         if form1.is_valid():
             form1.save()
+            res = {
+                'test' : form1.instance.username,
+                'protocol': None,
+                'domain' : None,
+            }
+            body = ('accounts/profile_reset.txt', res)
+            send_mail(
+                'Hello new user',
+                body,
+                'admin@example.com',
+                ['user@example.com'],
+                fail_silently=False,
+            )
 
         return redirect('accounts:list-profile')
 
