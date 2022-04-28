@@ -1,18 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>List</title>
-</head>
-<body>
-    <ul>
-    {% for task in object_list %}
-        <li>{{ task.title }}
-            <a href="{% url 'task:task-update' task.id %}"><button>edit</button></a>
-            <a href="{% url 'task:task-detail' task.id %}"><button>show</button></a>
-        </li>
+{% extends "base.html" %}
 
-    {% endfor %}
-    </ul>
-</body>
-</html>
+{% block title %}Home{% endblock %}
+
+{% block content %}
+    <div class="container">
+    <h1>Tasks</h1>
+    <p>
+        <a href="{% url 'task:task-create' %}">
+            <button type="button" class="btn btn-primary">Create task</button></a>
+    </p>
+        <ul>
+        {% for task in object_list %}
+            <li>{{ task.title }}
+                <p>
+                    <a href="{% url 'task:task-update' task.id %}">
+                        <button type="button" class="btn btn-primary">Edit</button></a>
+                    <a href="{% url 'task:task-detail' task.id %}">
+                        <button type="button" class="btn btn-primary">Show details</button></a>
+                </p>
+            </li>
+
+        {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

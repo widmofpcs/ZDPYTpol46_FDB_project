@@ -1,11 +1,27 @@
-<!DOCTYPE html>
+{% extends "base.html" %}
 
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-    <img src="{{ profile.upload.url }}">
-</body>
-</html>
+{% block title %}Profile detail{% endblock %}
+
+{% block content %}
+    <div class="container">
+        {{user.username}}<br>
+        {{user.email}}<br>
+        User name: {{profile.user}}<br>
+        {{profile.specialization}}<br>
+        {{profile.country}}<br>
+
+
+
+    {% if profile.upload %}
+        <img src="{{ profile.upload.url }}">
+    {% else %}
+        <p>No picture</p>
+    {% endif %}
+
+     <p>
+         <a href="{% url 'accounts:list-profile'%}">
+             <button type="button" class="btn btn-primary">Back</button></a>
+     </p>
+
+    </div>
+{% endblock %}

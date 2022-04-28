@@ -31,7 +31,7 @@ class ChooseCustomerForm(ModelForm):
 
     class Meta:
         model = Invoice
-        fields= ('id_customer',)
+        fields = ('id_customer',)
         labels = {
             'id_customer': 'Choose customer'
         }

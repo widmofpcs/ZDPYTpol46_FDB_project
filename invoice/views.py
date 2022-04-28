@@ -25,14 +25,15 @@ class InvoiceDetailView(views.View):
         )
 
 
-
 class InvoiceCustomerChoiceView(views.View):
 
     def get(self, request):
         customer = request.GET.get('id_customer')
 
         if customer:
-            return redirect('invoice:task_choice_view', customer)
+            x = redirect('invoice:task_choice_view')
+            x.set_cookie('customer', customer)
+            return x
 
         form = ChooseCustomerForm()
         return render(
@@ -46,24 +47,24 @@ class InvoiceCustomerChoiceView(views.View):
 
 class InvoiceTaskChoiceView(views.View):
 
-    def get(self, request, customer):
+    def get(self, request):
+        customer = request.COOKIES.get('customer')
         form = InvoiceCreateForm(initial={'id_customer_id': customer})
         form.fields['id_task'].queryset = Task.objects.filter(id_customer=customer, is_active=False, invoiced=False)
 
-        return render(
+        res = render(
             request,
             'invoice/invoice_create.html',
             context={
                 'form': form,
             }
         )
+        res.delete_cookie('customer')
+        return res
 
-    def post(self, request, customer):
-        customer_id = get_object_or_404(Customer, pk=customer)
+    def post(self, request):
         form = InvoiceCreateForm(request.POST)
-
         if form.is_valid():
-            form.instance.id_customer = customer_id
             form.save()
 
         return redirect('invoice:invoice-list')

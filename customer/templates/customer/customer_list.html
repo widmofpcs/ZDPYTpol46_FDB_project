@@ -1,23 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<h2> Lista klientów </h2>
+{% extends "base.html" %}
 
-<ol>
-    {% for customer in object_list %}
-    <li>
-    Nazwa: {{ customer.name}}<br>
-    Email: {{ customer.email}}<br>
-    NIP: {{ customer.tax_number}}<br>
-    <a href="{% url 'customer:details-customer' customer.id %}"><button class="btn btn-primary">Szczegóły</a></button><br><br>
-    </li>
-    {% endfor %}
-</ol>
-      <a href="{% url 'customer:form-customer' %}"><button class="btn btn-primary">Nowy klient</button></a>
+{% block title %}Home{% endblock %}
 
-</body>
-</html>
+{% block content %}
+    <div class="container">
+    <h2> Lista klientów </h2>
+        <p><a href="{% url 'customer:form-customer' %}">
+            <button type="button" class="btn btn-primary">New customer</button></a>
+        </p>
+
+    <ol>
+        {% for customer in object_list %}
+        <li>
+        Nazwa: {{ customer.name}}<br>
+        Email: {{ customer.email}}<br>
+        NIP: {{ customer.tax_number}}<br>
+        <a href="{% url 'customer:details-customer' customer.id %}">
+            <button type="button" class="btn btn-primary">Details</button></a><br><br>
+        </li>
+        {% endfor %}
+    </ol>
+
+    </div>
+{% endblock %}
