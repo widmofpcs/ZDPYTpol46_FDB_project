@@ -1,0 +1,3 @@
+Hello {{test}}.
+Please reset your password with following url
+{{ protocol }}://{{ domain }}

@@ -1,5 +1,6 @@
 from django.urls import path
 
+
 from customer import views
 
 app_name = 'customer'
@@ -13,5 +14,6 @@ urlpatterns = [
     # path('update/<int:pk>/', views.CustomerUpdateView.as_view(), name='update-customer'),
     path('update/<int:pk>/', views.customer_update_view, name='update-customer'),
     path('delete/<int:pk>/', views.CustomerDeleteView.as_view(), name='delete-customer'),
+
 ]
 
