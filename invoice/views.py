@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django import views
 from django.views.generic import ListView
-
+from django.db.models import Sum
 from customer.models import Customer
 from task.models import Task
 from invoice.models import Invoice
