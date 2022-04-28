@@ -5,13 +5,35 @@
 {% block content %}
     <div class="container">
     <h1>Request change task</h1>
+        <h2>Waiting for approval:</h2>
         {% for request_task in object_list %}
             {% if request_task.status == '1' %}
                 <li>
-                    {{ request_task.title }}
+                    {{ request_task.title }} - {{ request_task.created_date }}
                     <a href="{% url 'task:request-approval' request_task.id %}">
                         <button type="button" class="btn btn-primary">Check</button></a>
                 </li>
+                <br>
+            {% endif %}
+        {% endfor %}
+        <h2>Accepted: </h2>
+        {% for request_task in object_list %}
+            {% if request_task.status == '2' %}
+                <li>
+                {{ request_task.title }} - {{ request_task.description_of_change }}
+                review by: {{ request_task.review_by }}
+                </li>
+                <br>
+            {% endif %}
+        {% endfor %}
+        <h2>Denied: </h2>
+        {% for request_task in object_list %}
+            {% if request_task.status == '3' %}
+            <li>
+            {{ request_task.title }} - {{ request_task.description_of_change }}
+                review by: {{ request_task.review_by }}
+            </li>
+            <br>
             {% endif %}
         {% endfor %}
     </div>

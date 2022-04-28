@@ -9,5 +9,5 @@ urlpatterns = [
     path('detail/<int:number>/', InvoiceDetailView.as_view(), name='invoice-detail'),
     path('list/', InvoiceListView.as_view(), name='invoice-list'),
     path('customer-choice/', InvoiceCustomerChoiceView.as_view(), name='customer-choice'),
-    path('create/<int:customer>/', InvoiceTaskChoiceView.as_view(), name='task_choice_view'),
+    path('create/', InvoiceTaskChoiceView.as_view(), name='task_choice_view'),
 ]

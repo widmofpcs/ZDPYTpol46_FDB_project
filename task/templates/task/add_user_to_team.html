@@ -7,7 +7,10 @@
         <h1>{{ team.name }}</h1>
             <ul>
                 {% for user in users %}
-                    <li>{{ user.user_id.first_name }} {{ user.user_id.last_name }}</li>
+                    <li>{{ user.user_id.first_name }} {{ user.user_id.last_name }}
+                        <a href="{% url 'task:team-delete-user' team.id %}">
+                            <button type='button' class="btn btn-primary">Delete from Team</button></a>
+                    </li>
                 {% endfor %}
             </ul>
         <h2>Dodać nowego członka Team'u?</h2>

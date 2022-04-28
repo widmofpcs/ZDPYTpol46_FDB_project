@@ -41,6 +41,7 @@ class RequestChangeTask(models.Model):
     review_by = models.ForeignKey(
         CustomUser, on_delete=models.SET('Former manager'), null=True, related_name='manager'
     )
+    created_date = models.DateField(auto_now_add=True, editable=False)
 
     
 
