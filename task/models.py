@@ -41,12 +41,9 @@ class RequestChangeTask(models.Model):
     review_by = models.ForeignKey(
         CustomUser, on_delete=models.SET('Former manager'), null=True, related_name='manager'
     )
+    created_date = models.DateField(auto_now_add=True, editable=False)
 
-    def request_exist(self, pk):
-        if get_object_or_404(self, task_id=pk, status='1'):
-            task = get_object_or_404(self, task_id=pk)
-            return task
-
+    
 
 class TeamTask(models.Model):
     name = models.CharField(max_length=128)

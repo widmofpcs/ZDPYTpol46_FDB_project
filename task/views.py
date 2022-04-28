@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django import views
+from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView
 
 from accounts.models import CustomUser
@@ -18,6 +19,7 @@ class TaskDetailView(DetailView):
 class RequestTaskListView(ListView):
     model = RequestChangeTask
     template_name = 'task/request_change_list.html'
+    ordering = ['-created_date']
 
 
 class TaskCreateView(views.View):
@@ -115,13 +117,11 @@ class TeamTaskListView(ListView):
     template_name = 'task/team_task_list.html'
 
     def get_queryset(self):
-        name_list = []
         obj_list = []
-        teams = TeamTask.objects.all()
+        teams = TeamTask.objects.values_list('name').distinct()
         for team in teams:
-            if team.name not in name_list:
-                name_list.append(team.name)
-                obj_list.append(team)
+            res = TeamTask.objects.filter(name=team[0]).first()
+            obj_list.append(res)
         return obj_list
 
 
@@ -152,3 +152,23 @@ class TeamTaskAddUsers(views.View):
                 user_id=form.instance.user_id
             )
         return redirect('task:team-add', pk=pk)
+
+
+class TeamUserDeleteView(views.View):
+    def get(self, request, pk):
+        team = get_object_or_404(TeamTask, id=pk)
+        return render(
+            request,
+            'task/delete_user_from_team.html',
+            context={
+                'team': team
+            }
+        )
+
+    def post(self, request, pk):
+        team = get_object_or_404(TeamTask, id=pk)
+        if 'btnyes' in request.POST:
+            team.delete()
+            return redirect('task:team-list')
+        elif 'btnno' in request.POST:
+            return redirect('task:team-add', pk)

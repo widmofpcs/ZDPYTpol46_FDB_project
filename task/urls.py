@@ -1,7 +1,7 @@
 from django.urls import path
 
 from task.views import TaskCreateView, TaskListView, RequestChangeTaskView, RequestTaskListView, \
-    RequestChangeApprovalView, TeamTaskListView, TeamTaskAddUsers, TaskDetailView
+    RequestChangeApprovalView, TeamTaskListView, TeamTaskAddUsers, TaskDetailView, TeamUserDeleteView
 
 app_name = 'task'
 
@@ -14,5 +14,6 @@ urlpatterns = [
     path('request/approval/<int:pk>/', RequestChangeApprovalView.as_view(), name='request-approval'),
     path('team/list/', TeamTaskListView.as_view(), name='team-list'),
     path('team/add/<int:pk>/', TeamTaskAddUsers.as_view(), name='team-add'),
+    path('team/delete/user/<int:pk>/', TeamUserDeleteView.as_view(), name='team-delete-user'),
 
 ]
