@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django import views
+from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView
 
 from accounts.models import CustomUser
@@ -150,3 +151,25 @@ class TeamTaskAddUsers(views.View):
                 user_id=form.instance.user_id
             )
         return redirect('task:team-add', pk=pk)
+
+
+class TeamUserDeleteView(views.View):
+    def get(self, request, pk):
+        team = get_object_or_404(TeamTask, id=pk)
+        return render(
+            request,
+            'task/delete_user_from_team.html',
+            context={
+                'team': team
+            }
+        )
+
+    def post(self, request, pk):
+        team = get_object_or_404(TeamTask, id=pk)
+        if 'btnyes' in request.POST:
+            team.delete()
+            return redirect('task:team-list')
+        elif 'btnno' in request.POST:
+            return redirect('task:team-add', pk)
+
+
