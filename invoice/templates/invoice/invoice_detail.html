@@ -9,6 +9,9 @@
             {{invoice.date_created|date:'Y'}}</h1>
         <p>Client: </p>
         <p>{{ invoice.id_customer }}</p>
+            {% if invoice.id_discount %}
+        <p>Discount: {{ invoice.id_discount }} %</p>
+            {% endif %}
         <p>Tasks:</p>
             {% if not invoice.id_task.all %}
         <p>AIN NO TASKS HERE BWOOOOY</p>
@@ -21,6 +24,7 @@
             {% if invoice.id_discount %}
         <p>Discount: {{ invoice.id_discount }} %</p>
             {% endif %}
+        <p>Total cost: {{ sum }} </p>
         <a href="{% url 'invoice:invoice-list' %}">
             <button type="button" class="btn btn-primary">Back</button></a>
     </div>
