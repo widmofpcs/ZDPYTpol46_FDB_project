@@ -7,8 +7,11 @@
         <h1>Invoice Number: {{ invoice.number }} /
             {{invoice.date_created|date:'M'}} /
             {{invoice.date_created|date:'Y'}}</h1>
-        <p>Client: </p>
-        <p>{{ invoice.id_customer }}</p>
+        <p>Client:</p>
+        <p>{{ invoice.id_customer }}
+            <a href="{% url 'customer:details-customer' invoice.id_customer.id %}">
+            <button type="button" class="btn btn-primary">Customer details</button></a>
+        </p>
                 {% if invoice.id_discount %}
         <p>Discount: {{ invoice.id_discount }} %</p>
                 {% endif %}
@@ -18,7 +21,7 @@
                 {% endif %}
                 {% for task in invoice.id_task.all %}
         <p>{{ task.title }}
-        <a href="{% url 'task:task-detail' task.id %}">
+            <a href="{% url 'task:task-detail' task.id %}">
             <button type="button" class="btn btn-primary">Task detail</button></a>
                 {% endfor %}
                 {% if invoice.id_discount %}
