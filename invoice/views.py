@@ -12,6 +12,10 @@ from invoice.form import InvoiceCreateForm, ChooseCustomerForm
 class InvoiceListView(ListView):
     model = Invoice
 
+    def get_queryset(self, *args, **kwargs):
+        qs = super(InvoiceListView, self).get_queryset(*args, **kwargs)
+        qs = qs.order_by("-number")
+        return qs
 
 class InvoiceDetailView(views.View):
 
