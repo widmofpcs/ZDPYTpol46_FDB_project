@@ -1,3 +1,4 @@
+from django.db.models import Sum
 from django.shortcuts import render, redirect, get_object_or_404
 from django import views
 from django.views.generic import ListView
