@@ -4,6 +4,31 @@
 
 {% block content %}
     <div class="container">
-        {{ task.title }}
+        <p>
+            <b>Name:</b> {{ task.title }}
+        </p>
+        <p>
+            <b>Description:</b> {{ task.description }}
+        </p>
+        <p>
+            <b>Created by:</b> {{ task.created_by.get_full_name }}
+            <b>on: </b> {{ task.created_date }}
+        </p>
+        <p>
+            <b>Last modification on: </b>{{ task.date_modified }}
+        </p>
+        <p>
+            <b>Time consumed: </b>{{ task.consumed_time }} hours
+        </p>
+        <p>
+            <b>Total costs: </b>{{ task.total_cost }} $
+        </p>
+
+        <p>
+            <a href="{% url 'task:task-update' task.id %}">
+                <button type="button" class="btn btn-primary">Edit</button></a>
+            <a href="{% url 'home' %}">
+                 <button type="button" class="btn btn-primary">Back</button></a>
+        </p>
     </div>
 {% endblock %}

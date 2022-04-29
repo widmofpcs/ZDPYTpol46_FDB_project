@@ -15,6 +15,7 @@ from accounts.forms import CustomUserCreationForm, CustomUserProfileChangeForm, 
     CustomUserCreationFormFirst
 from accounts.formset import CustomUserProfileFormSet
 from accounts.models import CustomUserProfile, CustomUser
+from config.mixins import ManagerRequiredMixin
 
 
 class SignUpView(CreateView):
@@ -31,19 +32,35 @@ class ProfileUpdateView(UpdateView):
 """
 
 
-@login_required
-def profile_list_view(request):
-    model_user = CustomUser.objects.all()
-    model_user_profile = CustomUserProfile.objects.all()
+#
+# @login_required
+# def profile_list_view(request):
+#     model_user = CustomUser.objects.all()
+#     model_user_profile = CustomUserProfile.objects.all()
+#
+#     return render(
+#         request,
+#         'accounts/profile_list.html',
+#         context={
+#             'model_user': model_user,
+#             'model_user_profile': model_user_profile,
+#         }
+#     )
+#
 
-    return render(
-        request,
-        'accounts/profile_list.html',
-        context={
-            'model_user': model_user,
-            'model_user_profile': model_user_profile,
-        }
-    )
+class ProfileListView(ManagerRequiredMixin, views.View):
+
+    def get(self, request):
+        model_user = CustomUser.objects.all()
+        model_user_profile = CustomUserProfile.objects.all()
+        return render(
+            request,
+            'accounts/profile_list.html',
+            context={
+                'model_user': model_user,
+                'model_user_profile': model_user_profile,
+            }
+        )
 
 
 class UserCreateView(views.View):
@@ -65,13 +82,12 @@ class UserCreateView(views.View):
         form1.fields['password1'].initial = password
         form1.fields['password2'].initial = password
 
-
         if form1.is_valid():
             form1.save()
             res = {
-                'test' : form1.instance.username,
+                'test': form1.instance.username,
                 'protocol': None,
-                'domain' : None,
+                'domain': None,
             }
             body = ('accounts/profile_reset.txt', res)
             send_mail(
