@@ -156,3 +156,4 @@ LOGIN_REQUIRED_IGNORE_VIEW_NAMES = [
     'accounts:password_reset_complete',
 
 ]
+MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'

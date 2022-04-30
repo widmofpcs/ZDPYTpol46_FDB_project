@@ -17,11 +17,18 @@
     {% else %}
         <p>No picture</p>
     {% endif %}
-
-     <p>
-         <a href="{% url 'accounts:list-profile'%}">
-             <button type="button" class="btn btn-primary">Back</button></a>
-     </p>
+        <p>
+            <a href="{% url 'accounts:update-profile' %}">
+                <button type="button" class="btn btn-primary">Update Profile</button></a>
+        </p>
+        <p>
+            <a href="{% url 'home' %}">
+                 <button type="button" class="btn btn-primary">Back</button></a>
+            {% if user.is_manager %}
+                <a href="{% url 'accounts:list-profile' %}">
+                    <button type="button" class="btn btn-primary">User List</button></a>
+            {% endif %}
+        </p>
 
     </div>
 {% endblock %}
