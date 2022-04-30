@@ -150,9 +150,10 @@ LOGIN_REQUIRED_IGNORE_VIEW_NAMES = [
     'home',
     'login',
     'logout',
-    'accounts:reset_password',
+    'accounts:password_reset',
     'accounts:password_reset_done',
     'accounts:password_reset_confirm',
+    'password_reset_confirm',
     'accounts:password_reset_complete',
 
 ]

@@ -84,15 +84,16 @@ class UserCreateView(views.View):
 
         if form1.is_valid():
             form1.save()
-            res = {
-                'test': form1.instance.username,
-                'protocol': None,
-                'domain': None,
-            }
-            body = ('accounts/profile_reset.txt', res)
+            # res = {
+            #     'test': form1.instance.username,
+            #     'protocol': None,
+            #     'domain': None,
+            # }
+            # body = ('user_registration/profile_reset.txt', res)
             send_mail(
                 'Hello new user',
-                body,
+                # body,
+                'hello',
                 'admin@example.com',
                 ['user@example.com'],
                 fail_silently=False,
