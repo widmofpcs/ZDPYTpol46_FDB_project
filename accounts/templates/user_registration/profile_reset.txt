@@ -1,5 +1,9 @@
-Hello {{test}}.
+Hello {{username}}.
 Please reset your password with following url
 {{ protocol }}:/{{ domain }}
+Remember your user data:
+Username: {{username}}.
+Email: {{email}}
+
 Best regards
 FDB team

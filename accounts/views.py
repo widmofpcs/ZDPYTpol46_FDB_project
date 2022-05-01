@@ -62,10 +62,13 @@ class UserCreateView(views.View):
 
         if form1.is_valid():
             form1.save()
+            username = form1.instance.username
+            email = form1.instance.email
             protocol = request.get_host
             domain = 'accounts/password_reset/'
             res = {
-                'test': form1.instance.username,
+                'username': username,
+                'email' : email,
                 'protocol': protocol,
                 'domain': domain,
             }
@@ -73,9 +76,8 @@ class UserCreateView(views.View):
             send_mail(
                 'Hello new user',
                 body,
-                # 'hello',
-                'admin@example.com',
-                ['user@example.com'],
+                'FDBteam@sda.com',
+                [email],
                 fail_silently=False,
             )
 
