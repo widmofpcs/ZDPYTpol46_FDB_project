@@ -32,16 +32,10 @@ class CustomUserCreationForm(UserCreationForm):
         }
 
 
-class CustomUserChangeForm(UserChangeForm):
+class CustomUserChangeForm(forms.ModelForm):
     class Meta:
         model = CustomUser
-        fields = ("username", "email", 'is_manager', 'is_employee')
-
-
-class CustomUserProfileCreationForm(forms.ModelForm):
-    class Meta:
-        model = CustomUserProfile
-        fields = ('specialization', 'brith_date', 'country', 'city', 'address', 'phone_number', 'upload')
+        fields = ('username', 'first_name', 'last_name', 'email')
 
 
 class CustomUserProfileChangeForm(forms.ModelForm):

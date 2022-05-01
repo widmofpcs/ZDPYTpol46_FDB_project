@@ -1,3 +1,5 @@
 Hello {{test}}.
 Please reset your password with following url
-{{ protocol }}://{{ domain }}
+{{ protocol }}:/{{ domain }}
+Best regards
+FDB team
