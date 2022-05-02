@@ -5,6 +5,12 @@
 {% block content %}
     <div class="container">
         <h1>Invoices</h1>
+        <p>
+            <a href="{% url 'invoice:customer-choice' %}">
+                <button type="button" class="btn btn-primary">Create new invoice</button></a>
+            <a href="{% url 'home' %}">
+                <button type="button" class="btn btn-primary">Home</button></a>
+        </p>
         <ul>
             {% for invoice in object_list %}
             <li> Numer faktury: {{ invoice.number }} wystawiona dla: {{invoice.id_customer}}
@@ -13,11 +19,5 @@
             {% endfor %}
         </ul>
         <br>
-        <p>
-            <a href="{% url 'invoice:customer-choice' %}">
-                <button type="button" class="btn btn-primary">Create new invoice</button></a>
-            <a href="{% url 'home' %}">
-                <button type="button" class="btn btn-primary">Home</button></a>
-        </p>
     </div>
 {% endblock %}
