@@ -5,36 +5,50 @@
 {% block content %}
     <div class="container">
     <h1>Request change task</h1>
-        <h2>Waiting for approval:</h2>
+    <h2>Waiting for approval:</h2>
         {% for request_task in object_list %}
             {% if request_task.status == '1' %}
-                <li>
+                <ul>
+                <li style="color: blue">
                     {{ request_task.title }} - {{ request_task.created_date }}
                     <a href="{% url 'task:request-approval' request_task.id %}">
                         <button type="button" class="btn btn-primary">Check</button></a>
                 </li>
+                </ul>
                 <br>
             {% endif %}
         {% endfor %}
-        <h2>Accepted: </h2>
+    <h2>Accepted: </h2>
         {% for request_task in object_list %}
             {% if request_task.status == '2' %}
-                <li>
+                <ul>
+                <li style="color: green">
                 {{ request_task.title }} - {{ request_task.description_of_change }}
                 review by: {{ request_task.review_by }}
+                    <a href="{% url 'task:request-approval' request_task.id %}">
+                        <button type="button" class="btn btn-primary">Check</button></a>
                 </li>
+                </ul>
                 <br>
             {% endif %}
         {% endfor %}
-        <h2>Denied: </h2>
+    <h2>Denied: </h2>
         {% for request_task in object_list %}
             {% if request_task.status == '3' %}
-            <li>
+            <ul>
+            <li style="color: red">
             {{ request_task.title }} - {{ request_task.description_of_change }}
                 review by: {{ request_task.review_by }}
+                <a href="{% url 'task:request-approval' request_task.id %}">
+                        <button type="button" class="btn btn-primary">Check</button></a>
             </li>
+            </ul>
             <br>
             {% endif %}
         {% endfor %}
+        <p>
+            <a href="{% url 'home' %}">
+                <button type="button" class="btn btn-primary">Back</button></a>
+        </p>
     </div>
 {% endblock %}

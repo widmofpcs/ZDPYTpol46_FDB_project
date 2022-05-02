@@ -4,6 +4,7 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView
 
 from accounts.models import CustomUser
+from config.mixins import ManagerRequiredMixin
 from task.form import TaskCreateForm, EmployeeRequestChangeTask, AddUserToTeam
 from task.models import Task, RequestChangeTask, TeamTask
 
@@ -16,10 +17,10 @@ class TaskDetailView(DetailView):
     model = Task
 
 
-class RequestTaskListView(ListView):
+class RequestTaskListView(ManagerRequiredMixin, ListView):
     model = RequestChangeTask
     template_name = 'task/request_change_list.html'
-    ordering = ['-created_date']
+    ordering = ['-id']
 
 
 class TaskCreateView(views.View):

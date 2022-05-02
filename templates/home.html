@@ -3,43 +3,38 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
+{% if messages %}
+    {% for message in messages %}
+            <div class="alert {% if message.tags %}alert-{% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}danger
+    {% else %}{{ message.tags }}{% endif %}{% endif %}" role="alert">{{ message }}</div>
+    {% endfor %}
+{% endif %}
     <div class="container">
         {% if user.is_authenticated %}
-            <h1>Hi {{ user.username }}!</h1>
+            <h1>Hi {{ user.first_name }}!</h1>
                 <p>
-                    <a href="{% url 'logout' %}">
-                        <button type="button" class="btn btn-primary">Logout</button></a>
-                    <a href="{% url 'accounts:update-profile' %}">
-                        <button type="button" class="btn btn-primary">Update Profile</button></a>
+                    <a href="{% url 'accounts:detail-profile' user.id%}">
+                        <button type="button" class="btn btn-primary">Your Profile</button></a>
                 </p>
                 <br>
-            <h2>Accounts</h2>
+            <h2>Your active tasks:</h2>
+                {% for task in tasks %}
+                    <ul>
+                        <li><a href="{% url 'task:task-detail' task.id%}">{{ task.title }}</a></li>
+                    </ul>
+                {% endfor %}
+                <br>
                 <p>
-                    <a href="{% url 'accounts:list-profile'%}">
-                        <button type="button" class="btn btn-primary">User list</button></a>
+                    <a href="{% url 'task:task-create' %}">
+                    <button type="button" class="btn btn-primary">Create new task</button></a>
                 </p>
-            <h2>Customers</h2>
-                <p>
-                    <a href="{% url 'customer:list-customer' %}">
-                    <button type="button" class="btn btn-primary">Customer list</button></a>
-                </p>
-            <h2>Invoices</h2>
-                <p>
-                    <a href="{% url 'invoice:invoice-list' %}">
-                        <button type="button" class="btn btn-primary">Invoices list</button></a>
-                    <a href="{% url 'invoice:customer-choice' %}">
-                        <button type="button" class="btn btn-primary">Chose customer to invoice</button></a>
-                </p>
-            <h2>Task</h2>
-                <p>
-                    <a href="{% url 'task:task-list' %}">
-                        <button type="button" class="btn btn-primary">Task list</button></a>
-                    <a href="{% url 'task:team-list' %}">
-                        <button type="button" class="btn btn-primary">Teams list</button></a>
-{#                    tu wstaw dekorator na is_manager#}
-                    <a href="{% url 'task:request-list' %}">
-                        <button type="button" class="btn btn-primary">Request list</button></a>
-                </p>
+            <h2>Your Teams: </h2>
+                {% for team in teams %}
+                    <ul>
+                        <li><a href="{% url 'task:team-add' team.id %}">{{ team.name }}</a></li>
+                    </ul>
+                {% endfor %}
+
         {% else %}
           <p>You are not logged in</p>
           <a href="{% url 'login' %}"><button type="button" class="btn btn-primary">Login</button></a>
