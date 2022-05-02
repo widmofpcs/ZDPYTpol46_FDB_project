@@ -1,19 +1,13 @@
-import os
-
 from django import views
-from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
-from django.template import Context
-from django.template.loader import render_to_string
 from django.shortcuts import redirect, render, get_object_or_404
+from django.template.loader import render_to_string
 from django.urls import reverse_lazy
-from django.views.generic import ListView
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic.edit import CreateView, DeleteView
 
-from accounts.forms import CustomUserCreationForm, CustomUserProfileChangeForm, CustomUserChangeForm, \
-    CustomUserCreationFormFirst
-from accounts.formset import CustomUserProfileFormSet
+from accounts.forms import CustomUserCreationForm, CustomUserProfileChangeForm, CustomUserCreationFormFirst, \
+    CustomUserChangeForm
 from accounts.models import CustomUserProfile, CustomUser
 from config.mixins import ManagerRequiredMixin
 
@@ -31,22 +25,6 @@ class ProfileUpdateView(UpdateView):
     template_name = 'accounts/profile_update.html'
 """
 
-
-#
-# @login_required
-# def profile_list_view(request):
-#     model_user = CustomUser.objects.all()
-#     model_user_profile = CustomUserProfile.objects.all()
-#
-#     return render(
-#         request,
-#         'accounts/profile_list.html',
-#         context={
-#             'model_user': model_user,
-#             'model_user_profile': model_user_profile,
-#         }
-#     )
-#
 
 class ProfileListView(ManagerRequiredMixin, views.View):
 
@@ -84,55 +62,63 @@ class UserCreateView(views.View):
 
         if form1.is_valid():
             form1.save()
+            username = form1.instance.username
+            email = form1.instance.email
+            protocol = request.get_host
+            domain = 'accounts/password_reset/'
             res = {
-                'test': form1.instance.username,
-                'protocol': None,
-                'domain': None,
+                'username': username,
+                'email' : email,
+                'protocol': protocol,
+                'domain': domain,
             }
-            body = ('accounts/profile_reset.txt', res)
+            body = render_to_string('user_registration/profile_reset.txt', res)
             send_mail(
                 'Hello new user',
                 body,
-                'admin@example.com',
-                ['user@example.com'],
+                'FDBteam@sda.com',
+                [email],
                 fail_silently=False,
             )
 
         return redirect('accounts:list-profile')
 
 
-#
+class ProfileUpdateView(views.View):
 
-@login_required
-def profile_update_view(request):
-    if request.method == 'POST':
-        profile_form = CustomUserProfileChangeForm(request.POST, request.FILES, instance=request.user.profile)
-
-        if profile_form.is_valid():
-            profile_form.save()
-            return redirect(to='home')
-    else:
+    def get(self, request):
+        user_form = CustomUserChangeForm(instance=request.user)
         profile_form = CustomUserProfileChangeForm(instance=request.user.profile)
 
-    return render(
-        request,
-        'accounts/profile_update.html',
-        {'profile_form': profile_form}
-    )
+        return render(
+            request,
+            'accounts/profile_update.html',
+            {'user_form': user_form,
+             'profile_form': profile_form},
+        )
+
+    def post(self, request):
+        user_form = CustomUserChangeForm(request.POST, instance=request.user)
+        profile_form = CustomUserProfileChangeForm(request.POST, request.FILES, instance=request.user.profile)
+
+        if profile_form.is_valid() and user_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            return redirect(to='accounts:list-profile')
 
 
-@login_required
-def profile_detail_view(request, pk):
-    user = get_object_or_404(CustomUser, pk=pk)
-    profile = get_object_or_404(CustomUserProfile, pk=user.profile.id)
-    return render(
-        request,
-        'accounts/profile_detail.html',
-        context={
-            'user': user,
-            'profile': profile,
-        }
-    )
+class ProfileDetailView(views.View):
+    def get(self, request, pk):
+        user = get_object_or_404(CustomUser, pk=pk)
+        profile = get_object_or_404(CustomUserProfile, pk=user.profile.id)
+        return render(
+            request,
+            'accounts/profile_detail.html',
+            context={
+                'user': user,
+                'profile': profile,
+            }
+        )
 
 
 class UserDeleteView(DeleteView):
