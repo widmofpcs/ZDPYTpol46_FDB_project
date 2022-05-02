@@ -41,7 +41,6 @@ class Invoice(models.Model):
 
     def save(self, *args, **kwargs):
 
-
         date_now = datetime.now().strftime("%Y")
 
         if Invoice.no_invoice(self) or Invoice.last_invoice_date(self) != date_now:
