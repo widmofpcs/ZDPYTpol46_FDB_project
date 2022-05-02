@@ -61,12 +61,12 @@ class InvoiceTaskChoiceView(views.View):
 
         # zabezpiecznie przed wystawianiem faktury bez tasków wraz z informacją, gdyby nie było tasków do fakturowania
         task_qs_len = len(Task.objects.filter(id_customer=customer, is_active=False, invoiced=False))
-        print(task_qs_len)
+
         if task_qs_len == 0:
             messages.info(request, 'Selected customer doesn\'t have any tasks to be invoiced')
             return redirect('invoice:customer-choice')
         else:
-            form = InvoiceCreateForm(initial={'id_customer_id': customer})
+            form = InvoiceCreateForm(initial={'id_customer': customer})
             form.fields['id_task'].queryset = Task.objects.filter(id_customer=customer, is_active=False, invoiced=False)
             form.fields['id_customer'].queryset = Customer.objects.filter(id=customer)
 

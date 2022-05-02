@@ -52,7 +52,6 @@ class Invoice(models.Model):
             self.number = last_obj.number + 1
             super().save(*args, **kwargs)
 
-
     def __str__(self):
         return f'Invoice nr {str(self.number)}, issued on {self.date_created},for client: {self.id_customer}'
 
