@@ -116,16 +116,15 @@ class ProfileUpdateView(views.View):
         # profile_form = CustomUserProfileChangeForm(request.POST, request.FILES, instance=request.user.profile)
         user_form = CustomUserChangeForm(request.POST, instance=user)
         profile_form = CustomUserProfileChangeForm(request.POST, request.FILES, instance=profile)
-        print(user)
+
+        try:
+            old_image = profile.upload.path
+            if os.path.exists(old_image):
+                os.remove(old_image)
+        except:
+            pass
 
         if profile_form.is_valid() and user_form.is_valid():
-
-            # old_image = old_profile.upload.path
-            try:
-                if os.path.exists(profile.upload.path):
-                    os.remove(profile.upload.path)
-            except: pass
-
             user_form.save()
             profile_form.save()
 
