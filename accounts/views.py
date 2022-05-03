@@ -71,7 +71,7 @@ class UserCreateView(views.View):
             domain = 'accounts/password_reset/'
             res = {
                 'username': username,
-                'email' : email,
+                'email': email,
                 'protocol': protocol,
                 'domain': domain,
             }
@@ -89,12 +89,9 @@ class UserCreateView(views.View):
 
 class ProfileUpdateView(views.View):
 
-
     def get(self, request, pk):
         user = get_object_or_404(CustomUser, pk=pk)
         profile = get_object_or_404(CustomUserProfile, pk=pk)
-
-
 
         # user_form = CustomUserChangeForm(instance=request.user)
         # profile_form = CustomUserProfileChangeForm(instance=request.user.profile)

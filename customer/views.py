@@ -7,8 +7,6 @@ from customer.forms import CustomerForm
 
 
 
-# Create your views here.
-
 def customer_form(request):
     if request.method == "POST":
 
