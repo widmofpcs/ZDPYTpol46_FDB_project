@@ -7,7 +7,7 @@ from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView, DeleteView
 
 from accounts.forms import CustomUserCreationForm, CustomUserProfileChangeForm, CustomUserCreationFormFirst, \
-    CustomUserChangeForm
+    CustomUserChangeForm, CustomUserCreationFormFirst2
 from accounts.models import CustomUserProfile, CustomUser
 from config.mixins import ManagerRequiredMixin
 
@@ -44,7 +44,8 @@ class ProfileListView(ManagerRequiredMixin, views.View):
 class UserCreateView(views.View):
 
     def get(self, request):
-        form1 = CustomUserCreationForm
+        # form1 = CustomUserCreationForm
+        form1 = CustomUserCreationFormFirst2
         return render(
             request,
             'accounts/profile_form.html',
@@ -55,10 +56,11 @@ class UserCreateView(views.View):
 
     def post(self, request):
         password = CustomUser.objects.make_random_password(10)
-        form1 = CustomUserCreationForm(request.POST)
+        # form1 = CustomUserCreationForm(request.POST)
+        form1 = CustomUserCreationFormFirst2(request.POST)
 
-        form1.fields['password1'].initial = password
-        form1.fields['password2'].initial = password
+        # form1.fields['password1'].initial = password
+        # form1.fields['password2'].initial = password
 
         if form1.is_valid():
             form1.save()
