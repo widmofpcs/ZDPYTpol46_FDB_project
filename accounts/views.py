@@ -1,12 +1,13 @@
+import os.path
+
 from django import views
-from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 from django.shortcuts import redirect, render, get_object_or_404
 from django.template.loader import render_to_string
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView, DeleteView
 
-from accounts.forms import CustomUserCreationForm, CustomUserProfileChangeForm, CustomUserCreationFormFirst, \
+from accounts.forms import CustomUserProfileChangeForm, CustomUserCreationFormFirst, \
     CustomUserChangeForm, CustomUserCreationFormFirst2
 from accounts.models import CustomUserProfile, CustomUser
 from config.mixins import ManagerRequiredMixin
@@ -88,9 +89,17 @@ class UserCreateView(views.View):
 
 class ProfileUpdateView(views.View):
 
-    def get(self, request):
-        user_form = CustomUserChangeForm(instance=request.user)
-        profile_form = CustomUserProfileChangeForm(instance=request.user.profile)
+
+    def get(self, request, pk):
+        user = get_object_or_404(CustomUser, pk=pk)
+        profile = get_object_or_404(CustomUserProfile, pk=pk)
+
+
+
+        # user_form = CustomUserChangeForm(instance=request.user)
+        # profile_form = CustomUserProfileChangeForm(instance=request.user.profile)
+        user_form = CustomUserChangeForm(instance=user)
+        profile_form = CustomUserProfileChangeForm(instance=profile)
 
         return render(
             request,
@@ -99,13 +108,27 @@ class ProfileUpdateView(views.View):
              'profile_form': profile_form},
         )
 
-    def post(self, request):
-        user_form = CustomUserChangeForm(request.POST, instance=request.user)
-        profile_form = CustomUserProfileChangeForm(request.POST, request.FILES, instance=request.user.profile)
+    def post(self, request, pk):
+        user = get_object_or_404(CustomUser, pk=pk)
+        profile = get_object_or_404(CustomUserProfile, pk=pk)
+
+        # user_form = CustomUserChangeForm(request.POST, instance=request.user)
+        # profile_form = CustomUserProfileChangeForm(request.POST, request.FILES, instance=request.user.profile)
+        user_form = CustomUserChangeForm(request.POST, instance=user)
+        profile_form = CustomUserProfileChangeForm(request.POST, request.FILES, instance=profile)
+        print(user)
 
         if profile_form.is_valid() and user_form.is_valid():
+
+            # old_image = old_profile.upload.path
+            try:
+                if os.path.exists(profile.upload.path):
+                    os.remove(profile.upload.path)
+            except: pass
+
             user_form.save()
             profile_form.save()
+
             return redirect(to='accounts:list-profile')
 
 

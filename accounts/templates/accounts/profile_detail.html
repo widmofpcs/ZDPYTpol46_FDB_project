@@ -3,37 +3,39 @@
 {% block title %}Profile detail{% endblock %}
 
 {% block content %}
-    <div class="container">
-        User nick: {{user.username}}<br>
-        Name: {{user.first_name}}<br>
-        Surname: {{user.last_name}}<br>
-        Email: {{user.email}}<br>
-        Specialization: {{profile.specialization}}<br>
-        Birthday: {{profile.brith_date}}<br>
-        Country: {{profile.country}}<br>
-        City: {{profile.city}}<br>
-        Address: {{profile.address}}<br>
-        Phone number: {{profile.phone_number}}<br>
-
+<div class="container">
+    User nick: {{user.username}}<br>
+    Name: {{user.first_name}}<br>
+    Surname: {{user.last_name}}<br>
+    Email: {{user.email}}<br>
+    Specialization: {{profile.specialization}}<br>
+    Birthday: {{profile.brith_date}}<br>
+    Country: {{profile.country}}<br>
+    City: {{profile.city}}<br>
+    Address: {{profile.address}}<br>
+    Phone number: {{profile.phone_number}}<br>
 
 
     {% if profile.upload %}
-        <img src="{{ profile.upload.url }}">
+    <img src="{{ profile.upload.url }}">
     {% else %}
-        <p>No picture</p>
+    <p>No picture</p>
     {% endif %}
-        <p>
-            <a href="{% url 'accounts:update-profile' %}">
-                <button type="button" class="btn btn-primary">Update Profile</button></a>
-        </p>
-        <p>
-            <a href="{% url 'home' %}">
-                 <button type="button" class="btn btn-primary">Back</button></a>
-            {% if user.is_manager %}
-                <a href="{% url 'accounts:list-profile' %}">
-                    <button type="button" class="btn btn-primary">User List</button></a>
-            {% endif %}
-        </p>
+    <p>
+        <a href="{% url 'accounts:update-profile' user.id%}">
+            <button type="button" class="btn btn-primary">Update Profile</button>
+        </a>
+    </p>
+    <p>
+        <a href="{% url 'home' %}">
+            <button type="button" class="btn btn-primary">Back</button>
+        </a>
+        {% if user.is_manager %}
+        <a href="{% url 'accounts:list-profile' %}">
+            <button type="button" class="btn btn-primary">User List</button>
+        </a>
+        {% endif %}
+    </p>
 
-    </div>
+</div>
 {% endblock %}

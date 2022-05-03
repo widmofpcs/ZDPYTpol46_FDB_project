@@ -45,12 +45,18 @@ class CustomUserCreationFormFirst2(forms.ModelForm):
             "is_manager": "Is manager",
             "is_employee": "Is employee",
         }
+        help_texts = {
+            "username": ""
+        }
 
 
 class CustomUserChangeForm(forms.ModelForm):
     class Meta:
         model = CustomUser
         fields = ('username', 'first_name', 'last_name', 'email')
+        help_texts = {
+            "username": ""
+        }
 
 
 class CustomUserProfileChangeForm(forms.ModelForm):

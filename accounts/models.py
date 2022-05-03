@@ -25,11 +25,10 @@ class CustomUserProfile(models.Model):
     def user_directory_path(self, filename):
         return 'user_{0}/{1}'.format(self.user.id, filename)
 
-    # Gdy dodajesz nowe zdjęcie stare się usuwa - do zrobienia
     upload = models.ImageField(upload_to=user_directory_path, blank=True, null=True)
 
-    def get_url(self):
-        try:
-            return self.url
-        except IOError:
-            return None
+    # def get_url(self):
+    #     try:
+    #         return self.url
+    #     except IOError:
+    #         return None
