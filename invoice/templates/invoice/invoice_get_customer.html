@@ -3,11 +3,17 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
     <div class="container">
         <form>
             {{ form }}
             <button type="submit" class="btn btn-primary">Confirm</button>
-
         </form>
     </div>
 {% endblock %}
