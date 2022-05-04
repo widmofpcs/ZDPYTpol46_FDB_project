@@ -45,7 +45,7 @@ class InvoiceCustomerChoiceView(views.View):
             task_qs_len = len(Task.objects.filter(id_customer=customer, is_active=False, invoiced=False))
             if not task_qs_len:
                 messages.info(request,
-                              'Selected customer doesn\'t have any tasks to be invoiced or no tasks selected', )
+                              'Selected customer doesn\'t have any tasks to be invoiced', )
                 return redirect('invoice:customer-choice')
             else:
                 x = redirect('invoice:task_choice_view')
