@@ -19,8 +19,8 @@ class Invoice(models.Model):
     id_discount = models.ForeignKey(Discount, on_delete=models.DO_NOTHING, null=True, default='0')
     id_task = models.ManyToManyField(Task,
                                      limit_choices_to={'is_active': False, 'invoiced': False},
-                                     related_name='invoice_tasks') #tasks powinno sie nazywac po bozemu
-    number = models.IntegerField(default=0, editable=False)  #auto add
+                                     related_name='invoice_tasks')
+    number = models.IntegerField(default=0, editable=False)
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
     total_cost = models.DecimalField(max_digits=10, decimal_places=2, null=True)
