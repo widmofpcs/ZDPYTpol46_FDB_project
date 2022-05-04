@@ -4,12 +4,17 @@
 
 {% block content %}
     <div class="container">
-        <h2>Klient numer {{ customer.id }}</h2>
-        <p>{{ customer.name }}</p>
-        <p>{{ customer.address }}</p>
-        <p>{{ customer.city }}</p>
-        <p>{{ customer.country }}</p>
-        <p>{{ customer.email }}</p>
+        <h2>Customer number {{ customer.id }}</h2>
+        Customer name: {{ customer.name }}<br>
+        Address: {{ customer.address }}<br>
+        Zip code: {{ customer.zip_code }}<br>
+        City: {{ customer.city }}<br>
+        Country: <b>{{ customer.country }}</b><br>
+        NIP: {{ customer.tax_number }}<br>
+        REGON: {{ customer.regon_number }}<br>
+        Email: {{ customer.email }}<br>
+
+
         <p>
             <a href="{% url 'customer:update-customer' customer.id %}">
                 <button type="button" class="btn btn-primary">Update</button></a><br><br>
