@@ -5,7 +5,7 @@ Repozytorium na projekt kończący kurs Pythona w Software Developement Academy
 Przed uruchomieniem wykonaj:
 - python manage.py makemigrations
 - python manage.py migrate
-- python manage.py loaddata sample.json
+- python manage.py loaddata config/fixtures/sample.json
 
 login: employee
 haslo: employee
