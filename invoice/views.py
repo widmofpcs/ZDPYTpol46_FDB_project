@@ -44,7 +44,7 @@ class InvoiceCustomerChoiceView(views.View):
         if customer:
             task_qs_len = len(Task.objects.filter(id_customer=customer, is_active=False, invoiced=False))
             if not task_qs_len:
-                messages.info(request,
+                messages.error(request,
                               'Selected customer doesn\'t have any tasks to be invoiced', )
                 return redirect('invoice:customer-choice')
             else:
@@ -65,6 +65,7 @@ class InvoiceCustomerChoiceView(views.View):
 class InvoiceTaskChoiceView(views.View):
 
     def get(self, request):
+        print(request.COOKIES)
         customer = request.COOKIES.get('customer')
 
         form = InvoiceCreateForm(initial={'id_customer': customer})
@@ -83,15 +84,20 @@ class InvoiceTaskChoiceView(views.View):
 
     def post(self, request):
         task_ids = request.POST.getlist('id_task')
-        customer = request.POST.get('customer')
+        customer = request.POST.get('id_customer')
+
         form = InvoiceCreateForm(request.POST)
-        if len(task_ids) == 0:
+        if not task_ids:
             messages.error(
                 request,
                 'Please select at least one task',
                 extra_tags='create_view'
             )
-            return redirect('invoice:customer-choice')
+
+            x = redirect('invoice:task_choice_view')
+            x.set_cookie('customer', customer)
+            x.set_cookie('id_task', task_ids)
+            return x
 
         else:
             if form.is_valid():
