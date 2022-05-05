@@ -3,12 +3,12 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-
-    <ul>
-        {% for message in messages %}
-        <li> {{ message }}  </li>
-        {% endfor %}
-    </ul>
+{% if messages %}
+    {% for message in messages %}
+            <div class="alert {% if message.tags %}alert-{% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}danger
+    {% else %}{{ message.tags }}{% endif %}{% endif %}" role="alert">{{ message }}</div>
+    {% endfor %}
+{% endif %}
 
     <div class="container">
         <form>
