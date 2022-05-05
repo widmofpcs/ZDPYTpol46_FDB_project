@@ -5,11 +5,21 @@
 {% block content %}
     <div class="container">
         <h2><b>{{ waiting_task.description_of_change }}</b></h2>
-        <p>{{ task.title }} ---> {{ waiting_task.title }}</p>
-        <p>{{ task.description }} ---> {{ waiting_task.description }}</p>
-        <p>{{ task.consumed_time }} ---> {{ waiting_task.consumed_time }}</p>
-        <p>{{ task.rate }} ---> {{ waiting_task.rate }}</p>
-        <p>{{ task.is_active }} ---> {{ waiting_task.is_active }}</p>
+        {% if task.title != waiting_task.title %}
+            <p>Title: {{ task.title }} ---> <span style="color: green">{{ waiting_task.title }}</span></p>
+        {% endif %}
+        {% if task.description != waiting_task.description %}
+        <p>Description: {{ task.description }} ---> <span style="color: green">{{ waiting_task.description }}</span></p>
+        {% endif %}
+        {% if task.consumed_time != waiting_task.consumed_time %}
+        <p>Consumed time: {{ task.consumed_time }} ---> <span style="color: green">{{ waiting_task.consumed_time }}</span></p>
+        {% endif %}
+        {% if task.rate != waiting_task.rate %}
+        <p>Rate: {{ task.rate }} ---> <span style="color: green">{{ waiting_task.rate }}</span></p>
+        {% endif %}
+        {% if task.is_active != waiting_task.is_active %}
+        <p>Active: {{ task.is_active }} ---> <span style="color: green">{{ waiting_task.is_active }}</span></p>
+        {% endif %}
         {% if waiting_task.status == '1' %}
         <form method="POST">{% csrf_token %}
             <p>

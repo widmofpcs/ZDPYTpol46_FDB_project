@@ -20,6 +20,9 @@ class Task(models.Model):
     is_active = models.BooleanField(choices=BOOL_CHOICES, default=True)
     invoiced = models.BooleanField(choices=BOOL_CHOICES, default=False)
 
+    def __str__(self):
+        return self.title
+
 
 class RequestChangeTask(models.Model):
     STATUS = (
@@ -48,4 +51,3 @@ class TeamTask(models.Model):
     name = models.CharField(max_length=128)
     task_id = models.ForeignKey(Task, on_delete=models.CASCADE, related_name='tasks')
     user_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='users')
-
