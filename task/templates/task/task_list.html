@@ -3,6 +3,12 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
+    {% if messages %}
+    {% for message in messages %}
+            <div class="alert {% if message.tags %}alert-{% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}danger
+    {% else %}{{ message.tags }}{% endif %}{% endif %}" role="alert">{{ message }}</div>
+    {% endfor %}
+{% endif %}
     <div class="container">
     <h1>Tasks</h1>
     <p>
@@ -10,7 +16,9 @@
             <button type="button" class="btn btn-primary">Create task</button></a>
     </p>
         <ul>
+        <h2>Active tasks: </h2>
         {% for task in object_list %}
+            {% if task.is_active is True%}
             <li>{{ task.title }}
                 <p>
                     <a href="{% url 'task:task-update' task.id %}">
@@ -19,7 +27,20 @@
                         <button type="button" class="btn btn-primary">Show details</button></a>
                 </p>
             </li>
-
+            {% endif %}
+        {% endfor %}
+        <h2>Finished tasks: </h2>
+        {% for task in object_list %}
+            {% if task.is_active is False%}
+            <li>{{ task.title }}
+                <p>
+                    <a href="{% url 'task:task-update' task.id %}">
+                        <button type="button" class="btn btn-primary">Edit</button></a>
+                    <a href="{% url 'task:task-detail' task.id %}">
+                        <button type="button" class="btn btn-primary">Show details</button></a>
+                </p>
+            </li>
+            {% endif %}
         {% endfor %}
         </ul>
     </div>

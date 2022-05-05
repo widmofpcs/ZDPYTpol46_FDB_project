@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django import views
-from django.urls import reverse_lazy
+from django.contrib import messages
 from django.views.generic import ListView, DetailView
 
 from accounts.models import CustomUser
@@ -45,9 +45,10 @@ class TaskCreateView(views.View):
 
 class RequestChangeTaskView(views.View):
     def get(self, request, pk):
-        # task = get_object_or_404(Task, id=pk)
         if RequestChangeTask.objects.filter(task_id=pk, status='1').exists():
-            task = get_object_or_404(RequestChangeTask, task_id=pk, status='1')
+            messages.add_message(request, messages.ERROR, 'You cannot edit this task, previous request is waiting. '
+                                                          'Contact Your manager.')
+            return redirect('task:task-list')
         else:
             task = get_object_or_404(Task, id=pk)
         form = EmployeeRequestChangeTask(
