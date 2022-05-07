@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+    <div class="container">
+        {% if customer %}
+        <h2>Zmodyfikuj klienta</h2>
+        {% else %}
+        <h2>Zarejestruj klienta</h2>
+        {% endif %}
+
+        {% if customer %}
+            <form method="POST">{% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary">Update</button>
+            </form>
+            <a href="{% url 'customer:details-customer' customer.id%}">
+            <button type="button" class="btn btn-primary">Back</button></a>
+        {% else %}
+            <form method="POST">{% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary">Save</button>
+            </form>
+            <a href="{% url 'customer:list-customer' %}">
+            <button type="button" class="btn btn-primary">Back</button></a>
+        {% endif %}
+
+
+
+    </div>
+{% endblock %}
