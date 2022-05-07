@@ -109,8 +109,6 @@ class ProfileUpdateView(views.View):
         user = get_object_or_404(CustomUser, pk=pk)
         profile = get_object_or_404(CustomUserProfile, pk=pk)
 
-        # user_form = CustomUserChangeForm(request.POST, instance=request.user)
-        # profile_form = CustomUserProfileChangeForm(request.POST, request.FILES, instance=request.user.profile)
         user_form = CustomUserChangeForm(request.POST, instance=user)
         profile_form = CustomUserProfileChangeForm(request.POST, request.FILES, instance=profile)
 
@@ -124,8 +122,12 @@ class ProfileUpdateView(views.View):
         if profile_form.is_valid() and user_form.is_valid():
             user_form.save()
             profile_form.save()
+            current_user = request.user
 
-            return redirect(to='accounts:list-profile')
+            if current_user == user:
+                return redirect(to='home')
+            else:
+                return redirect(to='accounts:list-profile')
 
 
 class ProfileDetailView(views.View):
