@@ -18,15 +18,6 @@ class SignUpView(CreateView):
     success_url = reverse_lazy("login")
     template_name = "user_registration/signup.html"
 
-
-""""
-class ProfileUpdateView(UpdateView):
-    form_class = CustomUserProfileChangeForm
-    success_url = reverse_lazy("home")
-    template_name = 'accounts/profile_update.html'
-"""
-
-
 class ProfileListView(ManagerRequiredMixin, views.View):
 
     def get(self, request):
@@ -45,7 +36,6 @@ class ProfileListView(ManagerRequiredMixin, views.View):
 class UserCreateView(views.View):
 
     def get(self, request):
-        # form1 = CustomUserCreationForm
         form1 = CustomUserCreationFormFirst2
         return render(
             request,
@@ -59,9 +49,6 @@ class UserCreateView(views.View):
         password = CustomUser.objects.make_random_password(10)
         # form1 = CustomUserCreationForm(request.POST)
         form1 = CustomUserCreationFormFirst2(request.POST)
-
-        # form1.fields['password1'].initial = password
-        # form1.fields['password2'].initial = password
 
         if form1.is_valid():
             form1.save()
@@ -93,8 +80,6 @@ class ProfileUpdateView(views.View):
         user = get_object_or_404(CustomUser, pk=pk)
         profile = get_object_or_404(CustomUserProfile, pk=pk)
 
-        # user_form = CustomUserChangeForm(instance=request.user)
-        # profile_form = CustomUserProfileChangeForm(instance=request.user.profile)
         user_form = CustomUserChangeForm(instance=user)
         profile_form = CustomUserProfileChangeForm(instance=profile)
 
@@ -109,8 +94,6 @@ class ProfileUpdateView(views.View):
         user = get_object_or_404(CustomUser, pk=pk)
         profile = get_object_or_404(CustomUserProfile, pk=pk)
 
-        # user_form = CustomUserChangeForm(request.POST, instance=request.user)
-        # profile_form = CustomUserProfileChangeForm(request.POST, request.FILES, instance=request.user.profile)
         user_form = CustomUserChangeForm(request.POST, instance=user)
         profile_form = CustomUserProfileChangeForm(request.POST, request.FILES, instance=profile)
 
@@ -124,8 +107,12 @@ class ProfileUpdateView(views.View):
         if profile_form.is_valid() and user_form.is_valid():
             user_form.save()
             profile_form.save()
+            current_user = request.user
 
-            return redirect(to='accounts:list-profile')
+            if current_user == user:
+                return redirect(to='home')
+            else:
+                return redirect(to='accounts:list-profile')
 
 
 class ProfileDetailView(views.View):
