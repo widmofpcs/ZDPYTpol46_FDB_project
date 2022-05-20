@@ -1,12 +1,19 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from django.contrib.auth.forms import UserCreationForm
+from django.forms.utils import ErrorList
 
 from .models import CustomUser, CustomUserProfile
 
-class CustomUserCreationFormFirst(UserCreationForm):
-    class Meta:
-        model = CustomUser
-        fields = ("username", "email", 'is_manager', 'is_employee')
+
+class DivErrorList(ErrorList):
+    def __str__(self):
+        return self.as_divs()
+
+    def as_divs(self):
+        if not self:
+            return ''
+        return '<div class="errorlist">%s</div>' % ''.join([
+            '<div class="error alert alert-danger mt-1">%s</div>' % e for e in self])
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -34,10 +41,12 @@ class CustomUserCreationForm(UserCreationForm):
 
 
 class CustomUserCreationFormFirst2(forms.ModelForm):
+    username = forms.CharField(max_length=20, min_length=5, required=True)
+    email = forms.EmailField(required=True)
+
     class Meta:
         model = CustomUser
         fields = ("username", "email", 'is_manager', 'is_employee')
-
 
         labels = {
             "username": "User name",
@@ -48,6 +57,14 @@ class CustomUserCreationFormFirst2(forms.ModelForm):
         help_texts = {
             "username": ""
         }
+
+    def clean(self):
+        username = self.cleaned_data.get('username')
+        email = self.cleaned_data.get('email')
+        if CustomUser.objects.filter(email=email).exists():
+            self.add_error('email', 'User with this email already exists')
+        if CustomUser.objects.filter(username=username).exists():
+            self.add_error('username', 'This username is already in use')
 
 
 class CustomUserChangeForm(forms.ModelForm):

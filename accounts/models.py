@@ -1,11 +1,10 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-from django.urls import reverse_lazy
-from django.utils.functional import lazy
 from django_countries.fields import CountryField
 
 
 class CustomUser(AbstractUser):
+    email = models.EmailField(unique=True)
     is_manager = models.BooleanField('Manager status', default=False)
     is_employee = models.BooleanField('Employee status', default=False)
 
@@ -26,9 +25,3 @@ class CustomUserProfile(models.Model):
         return 'user_{0}/{1}'.format(self.user.id, filename)
 
     upload = models.ImageField(upload_to=user_directory_path, blank=True, null=True)
-
-    # def get_url(self):
-    #     try:
-    #         return self.url
-    #     except IOError:
-    #         return None

@@ -12,9 +12,5 @@ class Customer(models.Model):
     regon_number = models.CharField(max_length=9, null=True, blank=True)
     email = models.EmailField()
 
-
     def __str__(self):
         return f'{self.name.capitalize()}'
-
-#   total_cost = chipleader
-
