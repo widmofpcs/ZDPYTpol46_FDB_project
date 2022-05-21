@@ -66,7 +66,7 @@ class UserCreateView(views.View):
             send_mail(
                 'Hello new user',
                 body,
-                'fdbprojecttest@gmail.com',
+                'fdb_project@int.pl',
                 [email],
                 fail_silently=False,
             )
