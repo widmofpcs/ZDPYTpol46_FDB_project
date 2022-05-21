@@ -143,14 +143,21 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = "home"
 LOGOUT_REDIRECT_URL = "home"
 
-EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
-EMAIL_FILE_PATH = BASE_DIR / "sent_emails"
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'fdbprojecttest@gmail.com'
+EMAIL_HOST_PASSWORD = 'ZDPYTpol46'
+
+# EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
+# EMAIL_FILE_PATH = BASE_DIR / "sent_emails"
 
 LOGIN_REQUIRED_IGNORE_VIEW_NAMES = [
     'home',
     'login',
     'logout',
-    # 'admin',
     'accounts:password_reset',
     'accounts:password_reset_done',
     'accounts:password_reset_confirm',

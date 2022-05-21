@@ -72,3 +72,11 @@ class CustomerUpdateView(views.View):
 class CustomerDeleteView(DeleteView):
     model = Customer
     success_url = reverse_lazy('customer:list-customer')
+
+
+class RegonTest(views.View):
+    def get(self, request):
+        return render(
+            request,
+            'customer/regon_test.html',
+        )

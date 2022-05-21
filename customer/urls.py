@@ -14,6 +14,7 @@ urlpatterns = [
     path('form/', CustomerFormView.as_view(), name='form-customer'),
     path('update/<int:pk>/', views.CustomerUpdateView.as_view(), name='update-customer'),
     path('delete/<int:pk>/', views.CustomerDeleteView.as_view(), name='delete-customer'),
+    path('regon/', views.RegonTest.as_view(), name='test-customer'),
 
 ]
 

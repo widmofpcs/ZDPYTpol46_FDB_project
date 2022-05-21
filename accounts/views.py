@@ -66,7 +66,7 @@ class UserCreateView(views.View):
             send_mail(
                 'Hello new user',
                 body,
-                'FDBteam@sda.com',
+                'fdbprojecttest@gmail.com',
                 [email],
                 fail_silently=False,
             )
@@ -103,6 +103,11 @@ class ProfileUpdateView(views.View):
                 os.remove(old_image)
         except:
             pass
+
+        # if profile.upload.exist():
+        #     # os.path.exists(profile.upload.path)
+        #     os.remove(profile.upload.path)
+
 
         if profile_form.is_valid() and user_form.is_valid():
             user_form.save()

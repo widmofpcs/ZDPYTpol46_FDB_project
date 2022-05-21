@@ -12,7 +12,8 @@ class Task(models.Model):
     description = models.TextField(null=True, blank=True)
     created_date = models.DateField(auto_now_add=True, editable=False)
     date_modified = models.DateTimeField(auto_now=True)
-    created_by = models.ForeignKey(CustomUser, on_delete=models.SET('Former employee'), null=True)
+    # created_by = models.ForeignKey(CustomUser, on_delete=models.SET('Former employee'), null=True)
+    created_by = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True)
     consumed_time = models.DecimalField(null=True, blank=True, max_digits=5, decimal_places=1)
     id_customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True)
     rate = models.DecimalField(null=True, blank=True, max_digits=5, decimal_places=1)
@@ -39,10 +40,10 @@ class RequestChangeTask(models.Model):
     is_active = models.BooleanField(choices=BOOL_CHOICES)
     status = models.CharField(max_length=1, choices=STATUS, default='1')
     requested_by = models.ForeignKey(
-        CustomUser, on_delete=models.SET('Former employee'), null=True, related_name='employee'
+        CustomUser, on_delete=models.SET_NULL, null=True, related_name='employee'
     )
     review_by = models.ForeignKey(
-        CustomUser, on_delete=models.SET('Former manager'), null=True, related_name='manager'
+        CustomUser, on_delete=models.SET_NULL, null=True, related_name='manager'
     )
     created_date = models.DateField(auto_now_add=True, editable=False)
 

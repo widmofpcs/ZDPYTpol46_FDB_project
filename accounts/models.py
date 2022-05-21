@@ -1,7 +1,5 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-from django.urls import reverse_lazy
-from django.utils.functional import lazy
 from django_countries.fields import CountryField
 
 
