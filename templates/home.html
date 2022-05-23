@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+{% if messages %}
+    {% for message in messages %}
+            <div class="alert {% if message.tags %}alert-{% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}danger
+    {% else %}{{ message.tags }}{% endif %}{% endif %}" role="alert">{{ message }}</div>
+    {% endfor %}
+{% endif %}
+    <div class="container">
+        {% if user.is_authenticated %}
+            <h1>Hi {{ user.first_name }}!</h1>
+                <p>
+                    <a href="{% url 'accounts:detail-profile' user.id%}">
+                        <button type="button" class="btn btn-primary">Your Profile</button></a>
+                </p>
+                <br>
+            <h2>Your active tasks:</h2>
+                {% for task in tasks %}
+                    <!-- Modal -->
+                <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static"
+                     data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">Add consumed time</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                        <form method="POST">{% csrf_token %}
+                      <div class="modal-body">
+
+                          <p><b>Time spent working for this task: {{ task.consumed_time }}H</b></p>
+                                <div class="input-group input-group-sm">
+                                    <input type="text" class="form-control"
+                                           placeholder="How many hours you want to add?"
+                                            name="consumed_time">
+                                    <span class="input-group-text">H</span>
+                                    <input type="hidden" value="{{ task.id }}" name='task'>
+                                </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">Add</button>
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                      </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+                    <ul>
+                        <li><a href="{% url 'task:task-detail' task.id%}"><b>{{ task.title }}</b></a>
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                Add consumed time
+                            </button>
+                        </li>
+                    </ul>
+                {% endfor %}
+                <br>
+                <p>
+                    <a href="{% url 'task:task-create' %}">
+                    <button type="button" class="btn btn-primary">Create new task</button></a>
+                </p>
+            <h2>Your Teams: </h2>
+                {% for team in teams %}
+                    <ul>
+                        <li><a href="{% url 'task:team-add' team.id %}">{{ team.name }}</a></li>
+                    </ul>
+                {% endfor %}
+
+        {% else %}
+          <p>You are not logged in</p>
+          <a href="{% url 'login' %}"><button type="button" class="btn btn-primary">Login</button></a>
+
+
+    </div>
+{% endif %}
+{% endblock %}

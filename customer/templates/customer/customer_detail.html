@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h2>Customer number {{ customer.id }}</h2>
+        Customer name: {{ customer.name }}<br>
+        Address: {{ customer.address }}<br>
+        Zip code: {{ customer.zip_code }}<br>
+        City: {{ customer.city }}<br>
+        Country: <b>{{ customer.country }}</b><br>
+        NIP: {{ customer.tax_number }}<br>
+        REGON: {{ customer.regon_number }}<br>
+        Email: {{ customer.email }}<br>
+
+
+        <p>
+            <a href="{% url 'customer:update-customer' customer.id %}">
+                <button type="button" class="btn btn-primary">Update</button></a><br><br>
+            <a href="{% url 'customer:delete-customer' customer.id %}">
+                <button type="button" class="btn btn-primary">Delete</button></a><br><br>
+            <a href="{% url 'customer:list-customer' %}">
+                <button type="button" class="btn btn-primary">Back</button></a>
+        </p>
+    </div>
+{% endblock %}
