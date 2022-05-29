@@ -7,8 +7,8 @@ from task.models import Task, RequestChangeTask, TeamTask
 
 class TaskCreateForm(forms.ModelForm):
     title = forms.CharField()
-    id_customer = forms.ModelChoiceField(queryset=Customer.objects.all())
-    description = forms.Textarea(attrs={'placeholder': 'Describe this task with more detail'})
+    customer = forms.ModelChoiceField(queryset=Customer.objects.all())
+    description = forms.Textarea()
     consumed_time = forms.DecimalField(
         max_digits=4, decimal_places=1,
         widget=forms.NumberInput(attrs={'placeholder': 'Only one decimal place allowed'})
@@ -19,10 +19,10 @@ class TaskCreateForm(forms.ModelForm):
 
     class Meta:
         model = Task
-        fields = ['title', 'id_customer', 'description', 'consumed_time', 'rate']
+        fields = ['title', 'customer', 'description', 'consumed_time', 'rate']
         labels = {
             'title': 'Type Title for your Task: ',
-            'id_customer': 'Pick customer: ',
+            'customer': 'Pick customer: ',
             'description': 'Description: ',
             'consumed_time': 'Time spent working(H): ',
             'rate': 'Hourly rate: '

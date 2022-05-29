@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 from decouple import config
 from pathlib import Path
 import os
+import django
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 import accounts.apps
@@ -40,7 +41,7 @@ INSTALLED_APPS = [
     # 3rd part
 
     'django_countries',
-    
+
     # local
     'accounts.apps.AccountsConfig',
     'task.apps.TaskConfig',
@@ -125,9 +126,15 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-STATICFILES_DIRS = [BASE_DIR / 'static']
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+]
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+    # ('node_modules', os.path.join(BASE_DIR, 'node_modules/')),
+)
 STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
-
 # Media files
 
 MEDIA_URL = '/media/'

@@ -1,8 +1,7 @@
-from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.forms.utils import ErrorList
-
 from .models import CustomUser, CustomUserProfile
+from django import forms
 
 
 class DivErrorList(ErrorList):
@@ -77,6 +76,8 @@ class CustomUserChangeForm(forms.ModelForm):
 
 
 class CustomUserProfileChangeForm(forms.ModelForm):
+    brith_date = forms.DateTimeField()
+
     class Meta:
         model = CustomUserProfile
         fields = ('specialization', 'brith_date', 'country', 'city', 'address', 'phone_number', 'upload')

@@ -15,6 +15,6 @@ def create_team_task(sender, instance, created, **kwargs):
     if created:
         TeamTask.objects.create(
             name=f'{instance.title} - {instance.created_by.first_name} {instance.created_by.last_name}',
-            task_id=instance,
+            task=instance,
             user_id=instance.created_by
         )

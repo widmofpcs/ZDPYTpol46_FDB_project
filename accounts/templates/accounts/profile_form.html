@@ -6,7 +6,7 @@
 
     <div class="container">
         <form method="POST">{% csrf_token %}
-            {{ form.errors }}
+            {{ form1.errors }}
             {{ form1.as_p }}
             <button type="submit" class="btn btn-primary">Create</button>
         </form>

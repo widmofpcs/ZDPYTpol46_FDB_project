@@ -4,7 +4,7 @@
 
 {% block content %}
     <div class="container">
-        <h1>Czy chcesz usunać {{ team.user_id.first_name }} {{ team.user_id.last_name }} z Team'u:<br>
+        <h1>Czy chcesz usunać {{ team.user.first_name }} {{ team.user.last_name }} z Team'u:<br>
             {{ team.name }}</h1>
         <form method="POST">{% csrf_token %}
             <p>

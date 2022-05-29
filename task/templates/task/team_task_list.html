@@ -4,13 +4,14 @@
 
 {% block content %}
     <div class="container">
-    <h1>List of Teams</h1>
+        <h1>List of Teams</h1>
         <ul>
             {% for team in object_list %}
                 <li>
                     {{ team.name }}
                     <a href="{% url 'task:team-add' team.id %}">
-                        <button type="button" class="btn btn-primary">Edit</button></a>
+                        <button type="button" class="btn btn-primary">Edit</button>
+                    </a>
                 </li>
             {% endfor %}
         </ul>

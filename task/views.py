@@ -40,6 +40,7 @@ class TaskCreateView(views.View):
         if form.is_valid():
             form.instance.created_by = self.request.user
             form.save()
+            messages.add_message(request, messages.SUCCESS, 'Task created successfully!')
         return redirect('home')
 
 
@@ -72,15 +73,16 @@ class RequestChangeTaskView(views.View):
         form = EmployeeRequestChangeTask(request.POST)
         if form.is_valid():
             form.instance.requested_by = self.request.user
-            form.instance.task_id = task
+            form.instance.task = task
             form.save()
+            messages.add_message(request, messages.SUCCESS, 'Request sent')
         return redirect('home')
 
 
 class RequestChangeApprovalView(views.View):
     def get(self, request, pk):
         waiting_task = get_object_or_404(RequestChangeTask, id=pk)
-        task = get_object_or_404(Task, id=waiting_task.task_id.id)
+        task = get_object_or_404(Task, id=waiting_task.task.id)
         return render(
             request,
             'task/approval_change.html',
@@ -93,7 +95,7 @@ class RequestChangeApprovalView(views.View):
     def post(self, request, pk):
         waiting_task = get_object_or_404(RequestChangeTask, id=pk)
         if 'applybtn' in request.POST:
-            Task.objects.filter(id=waiting_task.task_id.id).update(
+            Task.objects.filter(id=waiting_task.task.id).update(
                 title=waiting_task.title,
                 description=waiting_task.description,
                 consumed_time=waiting_task.consumed_time,
@@ -104,6 +106,7 @@ class RequestChangeApprovalView(views.View):
                 status='2',
                 review_by=self.request.user
             )
+            messages.add_message(request, messages.SUCCESS, 'Changes saved')
             return redirect('task:request-list')
 
         elif 'deletebtn' in request.POST:
@@ -111,6 +114,7 @@ class RequestChangeApprovalView(views.View):
                 status='3',
                 review_by=self.request.user
             )
+            messages.add_message(request, messages.SUCCESS, 'Changes rejected')
             return redirect('task:request-list')
 
 
@@ -130,9 +134,9 @@ class TeamTaskListView(ListView):
 class TeamTaskAddUsers(views.View):
     def get(self, request, pk):
         team = get_object_or_404(TeamTask, id=pk)
-        users = TeamTask.objects.filter(task_id=team.task_id, name=team.name)
-        users_to_exclude = TeamTask.objects.filter(task_id=team.task_id, name=team.name).values_list('user_id',
-                                                                                                     flat=True)
+        users = TeamTask.objects.filter(task=team.task, name=team.name)
+        users_to_exclude = TeamTask.objects.filter(task=team.task, name=team.name).values_list('user_id_id',
+                                                                                               flat=True)
         form = AddUserToTeam()
         form.fields['user_id'].queryset = CustomUser.objects.exclude(id__in=users_to_exclude).exclude(is_superuser=True)
         return render(
@@ -150,9 +154,10 @@ class TeamTaskAddUsers(views.View):
         if form.is_valid():
             TeamTask.objects.create(
                 name=team.name,
-                task_id=team.task_id,
+                task_id=team.task.id,
                 user_id=form.instance.user_id
             )
+            messages.add_message(request, messages.SUCCESS, 'User added to a team')
         return redirect('task:team-add', pk=pk)
 
 
@@ -171,6 +176,7 @@ class TeamUserDeleteView(views.View):
         team = get_object_or_404(TeamTask, id=pk)
         if 'btnyes' in request.POST:
             team.delete()
+            messages.add_message(request, messages.SUCCESS, 'Team deleted')
             return redirect('task:team-list')
         elif 'btnno' in request.POST:
             return redirect('task:team-add', pk)

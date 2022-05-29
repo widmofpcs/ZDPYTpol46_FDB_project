@@ -111,7 +111,7 @@ class ProfileUpdateView(views.View):
             user_form.save()
             profile_form.save()
             current_user = request.user
-
+            messages.add_message(request, messages.SUCCESS, 'Updated successfully!')
             if current_user == user:
                 return redirect(to='home')
             else:
