@@ -7,11 +7,11 @@ from task.models import Task
 
 
 class InvoiceCreateForm(ModelForm):
-    id_customer = forms.ModelChoiceField(queryset=None, required=True),
-    id_discount = forms.ModelChoiceField(queryset=Discount.objects.all(),
+    customer = forms.ModelChoiceField(queryset=None, required=True),
+    discount = forms.ModelChoiceField(queryset=Discount.objects.all(),
                                          empty_label='Select discount',
                                          required=False)
-    id_task = forms.ModelMultipleChoiceField(
+    tasks = forms.ModelMultipleChoiceField(
         queryset=Task.objects.all(),
         widget=forms.CheckboxSelectMultiple,
         required=True
@@ -19,19 +19,19 @@ class InvoiceCreateForm(ModelForm):
 
     class Meta:
         model = Invoice
-        fields = ('id_discount', 'id_task', 'id_customer')
+        fields = ('discount', 'tasks', 'customer')
         labels = {
-            'id_discount': 'Discount: ',
-            'id_task': 'Choose task: ',
+            'discount': 'Discount: ',
+            'tasks': 'Choose task: ',
         }
 
 
 class ChooseCustomerForm(ModelForm):
-    id_customer = forms.ModelChoiceField(queryset=Customer.objects.all(), empty_label='Select customer')
+    customer = forms.ModelChoiceField(queryset=Customer.objects.all(), empty_label='Select customer')
 
     class Meta:
         model = Invoice
-        fields = ('id_customer',)
+        fields = ('customer',)
         labels = {
-            'id_customer': 'Choose customer'
+            'customer': 'Choose customer'
         }

@@ -4,15 +4,16 @@
 
 {% block content %}
     <div class="container">
-      <h2>Usuwanie klienta</h2>
-      <form method="POST" style="display: inline;">{% csrf_token %}
-        <p>Czy na pewno chcesz usunąć klienta: {{ customer.name }} ?</p>
-        <p>
-            <button type="submit" class="btn btn-primary">Yes</button>
-            <a href="{% url 'customer:list-customer' %}">
-                <button type="button" class="btn btn-primary">No</button></a>
-        </p>
-      </form>
+        <h2>Usuwanie klienta</h2>
+        <form method="POST" style="display: inline;">{% csrf_token %}
+            <p>Czy na pewno chcesz usunąć klienta: {{ customer.name }} ?</p>
+            <p>
+                <button type="submit" class="btn btn-primary">Yes</button>
+                <a href="{% url 'customer:list-customer' %}">
+                    <button type="button" class="btn btn-primary">No</button>
+                </a>
+            </p>
+        </form>
 
     </div>
 {% endblock %}

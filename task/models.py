@@ -14,7 +14,7 @@ class Task(models.Model):
     date_modified = models.DateTimeField(auto_now=True)
     created_by = models.ForeignKey(CustomUser, on_delete=models.SET('Former employee'), null=True)
     consumed_time = models.DecimalField(null=True, blank=True, max_digits=5, decimal_places=1)
-    id_customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True)
+    customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True)
     rate = models.DecimalField(null=True, blank=True, max_digits=5, decimal_places=1)
     total_cost = models.DecimalField(null=True, blank=True, max_digits=7, decimal_places=2)
     is_active = models.BooleanField(choices=BOOL_CHOICES, default=True)
@@ -30,7 +30,7 @@ class RequestChangeTask(models.Model):
         ('2', 'Accepted'),
         ('3', 'Denied'),
     )
-    task_id = models.ForeignKey(Task, on_delete=models.CASCADE, null=True)
+    task = models.ForeignKey(Task, on_delete=models.CASCADE, null=True)
     title = models.CharField(max_length=128, null=True)
     description = models.TextField(null=True, blank=True)
     description_of_change = models.TextField(null=True)
@@ -49,5 +49,5 @@ class RequestChangeTask(models.Model):
 
 class TeamTask(models.Model):
     name = models.CharField(max_length=128)
-    task_id = models.ForeignKey(Task, on_delete=models.CASCADE, related_name='tasks')
+    task = models.ForeignKey(Task, on_delete=models.CASCADE, related_name='tasks')
     user_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='users')

@@ -1,4 +1,6 @@
 from django import forms
+
+from accounts.forms import DivErrorList
 from customer.models import Customer
 
 
@@ -17,5 +19,7 @@ class CustomerForm(forms.ModelForm):
             "email": "Email",
         }
 
-
-
+    def clean(self):
+        tax_number = self.cleaned_data.get('tax_number')
+        if Customer.objects.filter(tax_number=tax_number).exists():
+            self.add_error('email', 'Customer with this tax number already exists')

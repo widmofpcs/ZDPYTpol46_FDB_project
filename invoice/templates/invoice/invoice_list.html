@@ -7,15 +7,18 @@
         <h1>Invoices</h1>
         <p>
             <a href="{% url 'invoice:customer-choice' %}">
-                <button type="button" class="btn btn-primary">Create new invoice</button></a>
+                <button type="button" class="btn btn-primary">Create new invoice</button>
+            </a>
             <a href="{% url 'home' %}">
-                <button type="button" class="btn btn-primary">Home</button></a>
+                <button type="button" class="btn btn-primary">Home</button>
+            </a>
         </p>
         <ul>
             {% for invoice in object_list %}
-            <li> Numer faktury: {{ invoice.number }} wystawiona dla: {{invoice.id_customer}}
+                <li> Numer faktury: {{ invoice.number }} wystawiona dla: {{ invoice.customer }}
                 <a href="{% url 'invoice:invoice-detail' invoice.number %}">
-                    <button type="button" class="btn btn-primary">Details</button></a>
+                    <button type="button" class="btn btn-primary">Details</button>
+                </a>
             {% endfor %}
         </ul>
         <br>

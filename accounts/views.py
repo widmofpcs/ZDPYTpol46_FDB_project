@@ -1,22 +1,18 @@
 import os.path
 
 from django import views
+from django.contrib import messages
 from django.core.mail import send_mail
+from django.forms import forms
 from django.shortcuts import redirect, render, get_object_or_404
 from django.template.loader import render_to_string
 from django.urls import reverse_lazy
-from django.views.generic.edit import CreateView, DeleteView
+from django.views.generic.edit import DeleteView
 
-from accounts.forms import CustomUserProfileChangeForm, CustomUserCreationFormFirst, \
-    CustomUserChangeForm, CustomUserCreationFormFirst2
+from accounts.forms import CustomUserProfileChangeForm, CustomUserChangeForm, CustomUserCreationFormFirst2, DivErrorList
 from accounts.models import CustomUserProfile, CustomUser
 from config.mixins import ManagerRequiredMixin
 
-
-class SignUpView(CreateView):
-    form_class = CustomUserCreationFormFirst
-    success_url = reverse_lazy("login")
-    template_name = "user_registration/signup.html"
 
 class ProfileListView(ManagerRequiredMixin, views.View):
 
@@ -36,7 +32,7 @@ class ProfileListView(ManagerRequiredMixin, views.View):
 class UserCreateView(views.View):
 
     def get(self, request):
-        form1 = CustomUserCreationFormFirst2
+        form1 = CustomUserCreationFormFirst2(error_class=DivErrorList)
         return render(
             request,
             'accounts/profile_form.html',
@@ -46,9 +42,7 @@ class UserCreateView(views.View):
         )
 
     def post(self, request):
-        password = CustomUser.objects.make_random_password(10)
-        # form1 = CustomUserCreationForm(request.POST)
-        form1 = CustomUserCreationFormFirst2(request.POST)
+        form1 = CustomUserCreationFormFirst2(request.POST, error_class=DivErrorList)
 
         if form1.is_valid():
             form1.save()
@@ -70,8 +64,17 @@ class UserCreateView(views.View):
                 [email],
                 fail_silently=False,
             )
-
-        return redirect('accounts:list-profile')
+            messages.add_message(request, messages.SUCCESS, 'User created successfully')
+            return redirect('accounts:list-profile')
+        else:
+            form1 = CustomUserCreationFormFirst2(request.POST, error_class=DivErrorList)
+            return render(
+                request,
+                'accounts/profile_form.html',
+                context={
+                    'form1': form1,
+                }
+            )
 
 
 class ProfileUpdateView(views.View):
@@ -108,7 +111,7 @@ class ProfileUpdateView(views.View):
             user_form.save()
             profile_form.save()
             current_user = request.user
-
+            messages.add_message(request, messages.SUCCESS, 'Updated successfully!')
             if current_user == user:
                 return redirect(to='home')
             else:

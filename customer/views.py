@@ -1,8 +1,10 @@
 from django import views
+from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DeleteView, UpdateView
 
+from accounts.forms import DivErrorList
 from customer.models import Customer
 from customer.forms import CustomerForm
 
@@ -24,8 +26,17 @@ class CustomerFormView(views.View):
 
         if form.is_valid():
             form.save()
-
-        return redirect('customer:list-customer')
+            messages.add_message(request, messages.SUCCESS, 'Customer created successfully')
+            return redirect('customer:list-customer')
+        else:
+            form = CustomerForm(request.POST, error_class=DivErrorList)
+            return render(
+                request,
+                'customer/customer_form.html',
+                context={
+                    'form': form
+                }
+            )
 
 
 class CustomerListView(ListView):
@@ -65,7 +76,7 @@ class CustomerUpdateView(views.View):
 
         if form.is_valid():
             form.save()
-
+        messages.add_message(request, messages.SUCCESS, 'Updated successfully!')
         return redirect('customer:details-customer', customer.id)
 
 

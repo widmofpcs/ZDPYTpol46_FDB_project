@@ -1,28 +1,36 @@
 {% extends "base.html" %}
 
 {% block title %}Profile list{% endblock %}
-
 {% block content %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert {% if message.tags %}alert-{% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}danger
+    {% else %}{{ message.tags }}{% endif %}{% endif %}" role="alert">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
     <div class="container">
         <h2> Users list</h2>
         <p>
             <a href="{% url 'accounts:form-profile' %}">
-            <button type="button" class="btn btn-primary">New User</button></a>
+                <button type="button" class="btn btn-primary">New User</button>
+            </a>
         </p>
-    <ol>
-        {% for user in model_user %}
-        <li>
-        Nazwa: {{ user.username}}<br>
-        Email: {{ user.email}}<br><br>
-        <p>
-            <a href="{% url 'accounts:detail-profile' user.id %}">
-                <button type="button" class="btn btn-primary">Details</button></a>
-            <a href="{% url 'accounts:delete-profile' user.id %}">
-                <button type="button" class="btn btn-primary">Delete Profile</button></a>
-        </p>
-        </li>
-        {% endfor %}
-    </ol>
+        <ol>
+            {% for user in model_user %}
+                <li>
+                    Nazwa: {{ user.username }}<br>
+                    Email: {{ user.email }}<br><br>
+                    <p>
+                        <a href="{% url 'accounts:detail-profile' user.id %}">
+                            <button type="button" class="btn btn-primary">Details</button>
+                        </a>
+                        <a href="{% url 'accounts:delete-profile' user.id %}">
+                            <button type="button" class="btn btn-primary">Delete Profile</button>
+                        </a>
+                    </p>
+                </li>
+            {% endfor %}
+        </ol>
 
     </div>
 {% endblock %}

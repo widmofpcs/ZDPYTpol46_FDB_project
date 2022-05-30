@@ -9,28 +9,31 @@
             <p>Title: {{ task.title }} ---> <span style="color: green">{{ waiting_task.title }}</span></p>
         {% endif %}
         {% if task.description != waiting_task.description %}
-        <p>Description: {{ task.description }} ---> <span style="color: green">{{ waiting_task.description }}</span></p>
+            <p>Description: {{ task.description }} ---> <span style="color: green">{{ waiting_task.description }}</span>
+            </p>
         {% endif %}
         {% if task.consumed_time != waiting_task.consumed_time %}
-        <p>Consumed time: {{ task.consumed_time }} ---> <span style="color: green">{{ waiting_task.consumed_time }}</span></p>
+            <p>Consumed time: {{ task.consumed_time }} ---> <span
+                    style="color: green">{{ waiting_task.consumed_time }}</span></p>
         {% endif %}
         {% if task.rate != waiting_task.rate %}
-        <p>Rate: {{ task.rate }} ---> <span style="color: green">{{ waiting_task.rate }}</span></p>
+            <p>Rate: {{ task.rate }} ---> <span style="color: green">{{ waiting_task.rate }}</span></p>
         {% endif %}
         {% if task.is_active != waiting_task.is_active %}
-        <p>Active: {{ task.is_active }} ---> <span style="color: green">{{ waiting_task.is_active }}</span></p>
+            <p>Active: {{ task.is_active }} ---> <span style="color: green">{{ waiting_task.is_active }}</span></p>
         {% endif %}
         {% if waiting_task.status == '1' %}
-        <form method="POST">{% csrf_token %}
-            <p>
-                <button class="btn btn-primary" type="submit" name="applybtn">Accept</button>
-                <button class="btn btn-primary" type="submit" name="deletebtn">Delete</button>
-            </p>
-        </form>
+            <form method="POST">{% csrf_token %}
+                <p>
+                    <button class="btn btn-primary" type="submit" name="applybtn">Accept</button>
+                    <button class="btn btn-primary" type="submit" name="deletebtn">Delete</button>
+                </p>
+            </form>
         {% else %}
             <p>
                 <a href="{% url 'task:request-list' %}">
-                    <button type="button" class="btn btn-primary">Back</button></a>
+                    <button type="button" class="btn btn-primary">Back</button>
+                </a>
             </p>
         {% endif %}
     </div>

@@ -1,13 +1,12 @@
 {% extends "base.html" %}
-
 {% block title %}Home{% endblock %}
 
 {% block content %}
     <div class="container">
         {% if customer %}
-        <h2>Modify customer</h2>
+            <h2>Modify customer</h2>
         {% else %}
-        <h2>Register customer</h2>
+            <h2>Register customer</h2>
         {% endif %}
 
         {% if customer %}
@@ -15,18 +14,19 @@
                 {{ form.as_p }}
                 <button type="submit" class="btn btn-primary">Update</button>
             </form>
-            <a href="{% url 'customer:details-customer' customer.id%}">
-            <button type="button" class="btn btn-primary">Back</button></a>
+            <a href="{% url 'customer:details-customer' customer.id %}">
+                <button type="button" class="btn btn-primary">Back</button>
+            </a>
         {% else %}
             <form method="POST">{% csrf_token %}
                 {{ form.as_p }}
                 <button type="submit" class="btn btn-primary">Save</button>
             </form>
             <a href="{% url 'customer:list-customer' %}">
-            <button type="button" class="btn btn-primary">Back</button></a>
+                <button type="button" class="btn btn-primary">Back</button>
+            </a>
         {% endif %}
 
-
-
     </div>
+
 {% endblock %}

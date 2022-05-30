@@ -3,14 +3,17 @@
 {% block title %}Profile form{% endblock %}
 
 {% block content %}
+
     <div class="container">
         <form method="POST">{% csrf_token %}
+            {{ form1.errors }}
             {{ form1.as_p }}
             <button type="submit" class="btn btn-primary">Create</button>
         </form>
-                <p>
+        <p>
             <a href="{% url 'accounts:list-profile' %}">
-                <button type="button" class="btn btn-primary">Back</button></a>
+                <button type="button" class="btn btn-primary">Back</button>
+            </a>
         </p>
     </div>
 {% endblock %}
