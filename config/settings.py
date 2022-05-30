@@ -132,7 +132,6 @@ STATICFILES_FINDERS = [
 ]
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
-    # ('node_modules', os.path.join(BASE_DIR, 'node_modules/')),
 )
 STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 # Media files
