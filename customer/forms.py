@@ -1,8 +1,10 @@
 from django import forms
+
+from accounts.forms import DivErrorList
 from customer.models import Customer
 
 
-class CustomerForm(forms.ModelForm):
+class CustomerForm(forms.ModelForm, error_class=DivErrorList):
     class Meta:
         model = Customer
         fields = "__all__"
