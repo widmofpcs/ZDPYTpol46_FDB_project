@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Confirm delete profile{% endblock %}
+
+{% block content %}
+    <div class="container">
+  <h2>Usuwanie użytkownika</h2>
+  <form method="POST" style="display: inline;">{% csrf_token %}
+    <p>Czy na pewno chcesz usunąć użytkownika: {{ user.name }} ?</p>
+    <p>
+        <button type="submit" class="btn btn-primary">Yes</button>
+        <a href="{% url 'accounts:list-profile' %}">
+            <button type="button" class="btn btn-primary">No</button></a>
+    </p>
+
+  </form>
+    </div>
+{% endblock %}
